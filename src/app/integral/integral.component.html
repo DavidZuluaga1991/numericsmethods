@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="jumbotron">
+    <ng-katex [equation]="equation" [options]="options"></ng-katex>
+    <div class="d-flex justify-content-center">
+      <div class="row col-md-7 shadow p-3 mb-5 bg-white rounded">
+        <div class="row col-sm-3 border-right">
+          <div class="cursor-art col-sm-4 mb-2" *ngFor="let bu of buttons">
+            <div *ngIf="!bu.katex" (click)="formula(bu.name)">
+              <button type="button" class="btn btn-dark">{{bu.name}}</button>
+            </div>
+          </div>
+        </div>
+        <div class="row col-sm-6 offset-1">
+          <div class="cursor-art col-sm-2 mb-2" *ngFor="let bu of buttonsSpecial">
+            <div *ngIf="bu.katex" (click)="formula(bu.katex)">
+              <button type="button" class="btn btn-dark">{{bu.name}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-success" (click)="cleanOperation()">Limpiar</button>
+<button type="button" class="btn btn-danger" (click)="cleanOperation()">Limpiar</button>
