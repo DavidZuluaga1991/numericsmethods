@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KatexOptions } from 'ng-katex';
 import { button } from './models/buttons';
-import { derivative } from 'mathjs';
+import { derivative,simplify } from 'mathjs';
 import { AppServiceService } from './../services/app-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RiemanComponent } from '../methods/rieman/rieman.component';
@@ -19,7 +19,16 @@ import { map } from 'rxjs/operators';
 })
 export class IntegralComponent implements OnInit {
 
-  equation: string = '';//'c = \\pm\\sqrt{a^2 + b^2}';//'\\sqrt{a^2 + b^2}';//'\\f{x} = \\int{x^2}';
+  equation: string;//'c = \\pm\\sqrt{a^2 + b^2}';//'\\sqrt{a^2 + b^2}';//'\\f{x} = \\int{x^2}';
+
+  wolframalpha:string;
+  integralWolframalpha: boolean = false;
+
+  imgformula: string;
+  imggrafica: string;
+  resultintegral: string;
+  elevado: boolean = false;
+
   options: KatexOptions = {
     displayMode: true,
     throwOnError: true,
@@ -28,53 +37,132 @@ export class IntegralComponent implements OnInit {
   };
   //private layout: any = 'alphanumeric';
   private buttons: button[] = [
-    new button("1", ""),
-    new button("2", ""),
-    new button("3", ""),
-    new button("4", ""),
-    new button("5", ""),
-    new button("6", ""),
-    new button("7", ""),
-    new button("8", ""),
-    new button("9", ""),
-    new button("0", ""),
-    new button("=", ""),
+    new button("1"),
+    new button("2"),
+    new button("3"),
+    new button("4"),
+    new button("5"),
+    new button("6"),
+    new button("7"),
+    new button("8"),
+    new button("9"),
+    new button("0"),
+    new button("="),
   ];
 
   private buttonsSpecial: button[] = [
-    new button("+", "+"),
-    new button("-", "-"),
-    new button("*", "*"),
-    new button("/", "\\frac{a}{b}"),
-    new button("∫", "\\int{}"),
-    new button("f(x)", "\\f{x}"),
+    new button("+","--"),
+    new button("-"),
+    new button("*"),
+    new button("/",undefined, "\\frac{a}{b}"),
+    new button("x"),
+    new button("x^", "^"),
+    new button("∫","Integrate[", "\\int{}"),
+    new button("f(x)",undefined, "\\f{x}"),
   ];
 
   constructor(private service: AppServiceService, private modalService: NgbModal,private ngxXml2jsonService: NgxXml2jsonService) {
-    var d = derivative('x^2+x', 'x');
-    console.log(d.toString());
-    this.result('Integrate[x^2,x]');
+    //var d = derivative('x^2+x', 'x');
+    //console.log(d.toString());
+    //this.result('Integrate[x^2+1,x]');
   }
 
   ngOnInit() {
     //console.log(Math.integral('x^2', 'x'));
   }
+  resultEvent() {
+    //this.wolframalpha = 'Integrate[((2x^2/5))--1,x]';
+    this.wolframalpha += (this.integralWolframalpha ? ']': '');
+    if(this.integralWolframalpha){
+      this.result();
+    }else{
+      this.resultintegral = simplify(this.wolframalpha).toString();
+      this.equation += `= ${this.resultintegral}`;
+    }
+  }
 
-  result(formula: string) {
-    var p = this.service.searchValue(formula);
+  result() {
     
-      /*p.subscribe((data:string) => {
-        var a = this.ngxXml2jsonService.xmlToJson(data);
-        console.log(a);
-      });*/
+    this.service.searchValue(this.wolframalpha)
+      .subscribe(data => {
+        //var a = this.ngxXml2jsonService.xmlToJson(data);
+        this.imgformula = data['queryresult']['pods'][0]['subpods'][0]['img']['src'];
+        this.imggrafica = data['queryresult']['pods'][1]['subpods'][0]['img']['src'];
+        this.resultintegral = data['queryresult']['pods'][0]['subpods'][0]['plaintext'];
+        this.resultintegral = this.resultintegral.split('=')[(this.resultintegral.split('=').length > 1 ? 1 : 0)].split("+ constant")[0].trim();
+
+        this.equation += `= `;
+        let parentesis: boolean = false;
+        let res: string = '';
+
+        for (let l = 0; l < this.resultintegral.length; l++) {
+          let chart: string = this.resultintegral.charAt(l);
+          if(chart == '('){
+            parentesis = true;
+            res += chart;
+          }
+          if(!(parentesis && chart == ' ') && !(chart == ')') && !(chart == '(')){
+            res += chart;
+          }
+          if (chart == ')'){
+            parentesis = false;
+            res += chart;
+          }
+        }
+        this.resultintegral = res;
+
+        this.resultintegral.split(' ').forEach(i => {
+          let div: boolean = false;
+          //let count = 0;
+          for (let j = 0; j < i.length; j++) {
+            if(i.charAt(j) == '/'){
+              div = true;
+              //count++;
+            }
+          }
+          if(div){
+            this.equation += `\\frac{${i.split('/')[0]}}{${i.split('/')[1]}}`;
+          }
+          else 
+            this.equation += i;
+          console.log(i);
+        });
+        /*var d = derivative(this.resultintegral, 'x');
+        console.log(d.toString());*/
+        console.log(this.imgformula);
+        console.log(this.imggrafica);
+        //console.log(this.resultintegral);
+
+      });
   }
 
-  formula(e: string) {
-    this.equation = this.equation + e;
+  formula(e: string,wol?: string) {
+    if(e === "x^"){
+       this.elevado = true;
+    }
+    else{ 
+      this.equation = (this.equation == undefined ? '' : this.equation) + (this.elevado ? "^" : "") + e;
+
+      if(!(e == "f(x)" || e == "=")){
+        if(e == "∫"){
+          e = wol; 
+          this.integralWolframalpha = true;
+        }
+        this.wolframalpha = (this.wolframalpha == undefined ? '' : this.wolframalpha) + (this.elevado ? "^" : "") + e; 
+      }
+    }
   }
+
   cleanOperation() {
     this.equation = "";
+    this.wolframalpha = "";
+    this.imgformula = "";
+    this.imggrafica = "";
+    this.resultintegral = "";
+    this.integralWolframalpha = false;
+    this.elevado = false;
   }
+
   metod(metodos: string) {
     const dialogRef = this.modalService.open((metodos == "rieman" ? RiemanComponent : (metodos == "simpson" ? SimpsonComponent : (metodos == "trapecio" ? TrapecioComponent : RombergComponent))), { size: 'lg' });
     dialogRef.result.then((result) => {

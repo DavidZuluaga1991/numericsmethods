@@ -8,7 +8,8 @@ export const environment = {
   version: 'v2/query',
   input: 'input=',
   appid: 'appid=',
-  api_key:'Y28G28-V7Y7YQU724'
+  api_key:'Y28G28-V7Y7YQU724',
+  json: '&output=json'
 };
 
 /*
