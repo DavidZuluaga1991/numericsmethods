@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~katex/dist/katex.css';
+
 /*@import "~bootstrap/dist/css/bootstrap.css";*/
-@import '~bootstrap/dist/css/bootstrap.min.css';
 /*@import "~font-awesome/css/font-awesome.css";*/
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('//fonts.googleapis.com/icon?family=Material+Icons');
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~katex/dist/katex.css';

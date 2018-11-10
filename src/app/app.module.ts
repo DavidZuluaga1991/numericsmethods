@@ -12,11 +12,17 @@ import {
   MatProgressBarModule,
   MatSliderModule,
   MatCardModule,
+  MatMenuModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatButtonModule
 } from '@angular/material';
+import { HeaderComponent } from './header/header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
-    routedComponents
+    routedComponents,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +34,11 @@ import {
     MatSliderModule,
     MatCardModule,
     MatProgressBarModule,
-    FormsModule
+    FormsModule,
+    MatMenuModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

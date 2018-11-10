@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <button mat-button [routerLink]="['numericsmethods']">
+    <span>App para Metodos Numericos</span>
+  </button>
+  <span class="example-spacer"></span>
+  <button mat-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>menu</mat-icon> Menu
+  </button>
+</mat-toolbar>
+<mat-menu #appMenu="matMenu">
+  <button mat-menu-item [routerLink]="['numericsmethods']">
+    <mat-icon>dialpad</mat-icon>
+      <span>Metodos Numericos</span>
+  </button>
+</mat-menu>
