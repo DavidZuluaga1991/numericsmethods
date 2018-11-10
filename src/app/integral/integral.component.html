@@ -1,3 +1,5 @@
+
+<mat-progress-bar mode="indeterminate" *ngIf="load"></mat-progress-bar>
 <div class="container">
   <div class="jumbotron">
     <ng-katex [equation]="equation" [options]="options"></ng-katex>
@@ -26,10 +28,8 @@
     </div>
     <div class="d-flex justify-content-center">
       <div class="row col-md-7 shadow p-3 mb-3 bg-white rounded">
-        <button type="button" class="btn btn-success col-sm-2" (click)="metod(rieman)" [disabled] = "!(resultintegral && integralWolframalpha)">Rieman</button>
-        <button type="button" class="btn btn-success col-sm-2 offset-1" (click)="metod(simpson)" [disabled] = "!(resultintegral && integralWolframalpha)">Simpson</button>
-        <button type="button" class="btn btn-success col-sm-2 offset-1" (click)="metod(trapecio)" [disabled] = "!(resultintegral && integralWolframalpha)">Trapecio</button>
-        <button type="button" class="btn btn-success col-sm-2 offset-1" (click)="metod(romberg)" [disabled] = "!(resultintegral && integralWolframalpha)">Romberg</button>
+        
+        <button type="button" class="btn btn-success col-sm-2 offset-1" (click)="metod(i)" [disabled] = "!(resultintegral && integralWolframalpha)" *ngFor = "let i of metodosArray">{{i  | titlecase}}</button>
       </div>
     </div>
   </div>

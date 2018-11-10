@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-rieman',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RiemanComponent implements OnInit {
 
-  constructor() { }
+
+  //@ViewChild(AddPropertiesComponent) addproperties: AddPropertiesComponent; 
+
+  constructor(private activeModal: NgbActiveModal) { }
 
   ngOnInit() {
   }
-
+  closeModal() {
+    this.activeModal.close();
+  }
 }

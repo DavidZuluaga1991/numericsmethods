@@ -8,8 +8,6 @@ import { RiemanComponent } from '../methods/rieman/rieman.component';
 import { TrapecioComponent } from '../methods/trapecio/trapecio.component';
 import { SimpsonComponent } from '../methods/simpson/simpson.component';
 import { RombergComponent } from '../methods/romberg/romberg.component';
-import { NgxXml2jsonService } from 'ngx-xml2json'
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-integral',
@@ -19,7 +17,9 @@ import { map } from 'rxjs/operators';
 })
 export class IntegralComponent implements OnInit {
 
-  equation: string;//'c = \\pm\\sqrt{a^2 + b^2}';//'\\sqrt{a^2 + b^2}';//'\\f{x} = \\int{x^2}';
+  load:boolean = false;
+
+  equation: string;
 
   wolframalpha:string;
   integralWolframalpha: boolean = false;
@@ -35,7 +35,7 @@ export class IntegralComponent implements OnInit {
     errorColor: "#cc0000",
     macros: { "\\f": "f(#1)" }
   };
-  //private layout: any = 'alphanumeric';
+  private metodosArray: string[] = ["rieman","simpson","trapecio","romberg"]
   private buttons: button[] = [
     new button("1"),
     new button("2"),
@@ -61,10 +61,7 @@ export class IntegralComponent implements OnInit {
     new button("f(x)",undefined, "\\f{x}"),
   ];
 
-  constructor(private service: AppServiceService, private modalService: NgbModal,private ngxXml2jsonService: NgxXml2jsonService) {
-    //var d = derivative('x^2+x', 'x');
-    //console.log(d.toString());
-    //this.result('Integrate[x^2+1,x]');
+  constructor(private service: AppServiceService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -82,7 +79,7 @@ export class IntegralComponent implements OnInit {
   }
 
   result() {
-    
+    this.load = true;
     this.service.searchValue(this.wolframalpha)
       .subscribe(data => {
         //var a = this.ngxXml2jsonService.xmlToJson(data);
@@ -133,6 +130,7 @@ export class IntegralComponent implements OnInit {
         console.log(this.imggrafica);
         //console.log(this.resultintegral);
 
+        this.load = false;
       });
   }
 
@@ -166,12 +164,8 @@ export class IntegralComponent implements OnInit {
   metod(metodos: string) {
     const dialogRef = this.modalService.open((metodos == "rieman" ? RiemanComponent : (metodos == "simpson" ? SimpsonComponent : (metodos == "trapecio" ? TrapecioComponent : RombergComponent))), { size: 'lg' });
     dialogRef.result.then((result) => {
-      //this.refreshTable();
-      //this.loadData();
       console.log('ingreso ' + metodos);
     }, (reason) => {
-      //this.refreshTable();
-      //this.loadData();
       console.log('Salio de ' + metodos);
     });
   }
