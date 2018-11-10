@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KatexOptions } from 'ng-katex';
 import { button } from './models/buttons';
-import { derivative,simplify } from 'mathjs';
+import { derivative, simplify } from 'mathjs';
 import { AppServiceService } from './../services/app-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RiemanComponent } from '../methods/rieman/rieman.component';
@@ -17,11 +17,14 @@ import { RombergComponent } from '../methods/romberg/romberg.component';
 })
 export class IntegralComponent implements OnInit {
 
-  load:boolean = false;
+  load: boolean = false;
 
   equation: string;
+  valuemin: number = 0;
+  valuemax: number = 0;
+  valueitera: number = 0;
 
-  wolframalpha:string;
+  wolframalpha: string;
   integralWolframalpha: boolean = false;
 
   imgformula: string;
@@ -35,7 +38,7 @@ export class IntegralComponent implements OnInit {
     errorColor: "#cc0000",
     macros: { "\\f": "f(#1)" }
   };
-  private metodosArray: string[] = ["rieman","simpson","trapecio","romberg"]
+  private metodosArray: string[] = ["rieman", "simpson", "trapecio", "romberg"]
   private buttons: button[] = [
     new button("1"),
     new button("2"),
@@ -51,14 +54,14 @@ export class IntegralComponent implements OnInit {
   ];
 
   private buttonsSpecial: button[] = [
-    new button("+","--"),
+    new button("+", "--"),
     new button("-"),
     new button("*"),
-    new button("/",undefined, "\\frac{a}{b}"),
+    new button("/", undefined, "\\frac{a}{b}"),
     new button("x"),
     new button("x^", "^"),
-    new button("∫","Integrate[", "\\int{}"),
-    new button("f(x)",undefined, "\\f{x}"),
+    new button("∫", "Integrate[", "\\int{}"),
+    new button("f(x)", undefined, "\\f{x}"),
   ];
 
   constructor(private service: AppServiceService, private modalService: NgbModal) {
@@ -67,12 +70,17 @@ export class IntegralComponent implements OnInit {
   ngOnInit() {
     //console.log(Math.integral('x^2', 'x'));
   }
+  format(num: number){
+    return Number((num / 10000).toFixed(1))
+  }
   resultEvent() {
     //this.wolframalpha = 'Integrate[((2x^2/5))--1,x]';
-    this.wolframalpha += (this.integralWolframalpha ? ']': '');
-    if(this.integralWolframalpha){
+    //this.valuemin = Number((this.valuemin / 10000).toFixed(1));
+    //this.valuemax = Number((this.valuemax / 10000).toFixed(1));
+    this.wolframalpha = (this.integralWolframalpha ? `${this.wolframalpha},{x,${((this.valuemin / 10000).toFixed(1))},${(this.valuemax / 10000).toFixed(1)}}]` : '');
+    if (this.integralWolframalpha) {
       this.result();
-    }else{
+    } else {
       this.resultintegral = simplify(this.wolframalpha).toString();
       this.equation += `= ${this.resultintegral}`;
     }
@@ -94,14 +102,14 @@ export class IntegralComponent implements OnInit {
 
         for (let l = 0; l < this.resultintegral.length; l++) {
           let chart: string = this.resultintegral.charAt(l);
-          if(chart == '('){
+          if (chart == '(') {
             parentesis = true;
             res += chart;
           }
-          if(!(parentesis && chart == ' ') && !(chart == ')') && !(chart == '(')){
+          if (!(parentesis && chart == ' ') && !(chart == ')') && !(chart == '(')) {
             res += chart;
           }
-          if (chart == ')'){
+          if (chart == ')') {
             parentesis = false;
             res += chart;
           }
@@ -112,20 +120,21 @@ export class IntegralComponent implements OnInit {
           let div: boolean = false;
           //let count = 0;
           for (let j = 0; j < i.length; j++) {
-            if(i.charAt(j) == '/'){
+            if (i.charAt(j) == '/') {
               div = true;
               //count++;
             }
           }
-          if(div){
+          if (div) {
             this.equation += `\\frac{${i.split('/')[0]}}{${i.split('/')[1]}}`;
           }
-          else 
+          else
             this.equation += i;
           console.log(i);
         });
         /*var d = derivative(this.resultintegral, 'x');
         console.log(d.toString());*/
+        console.log(data);
         console.log(this.imgformula);
         console.log(this.imggrafica);
         //console.log(this.resultintegral);
@@ -134,19 +143,20 @@ export class IntegralComponent implements OnInit {
       });
   }
 
-  formula(e: string,wol?: string) {
-    if(e === "x^"){
-       this.elevado = true;
+  formula(e: button /*e: string,wol?: string,katex?: string*/) {
+    if (e.name === "x^") {
+      this.elevado = true;
     }
-    else{ 
-      this.equation = (this.equation == undefined ? '' : this.equation) + (this.elevado ? "^" : "") + e;
+    else {
+      this.equation = (this.equation == undefined ? '' : this.equation) + (this.elevado ? "^" : "") + (e.name == "∫" ? e.katex : e.name);
 
-      if(!(e == "f(x)" || e == "=")){
-        if(e == "∫"){
-          e = wol; 
+      if (!(e.name == "f(x)" || e.name == "=")) {
+        let pru = e.name;
+        if (e.name == "∫") {
+          pru = e.wolframalpha;
           this.integralWolframalpha = true;
         }
-        this.wolframalpha = (this.wolframalpha == undefined ? '' : this.wolframalpha) + (this.elevado ? "^" : "") + e; 
+        this.wolframalpha = (this.wolframalpha == undefined ? '' : this.wolframalpha) + (this.elevado ? "^" : "") + pru;
       }
     }
   }
@@ -168,6 +178,21 @@ export class IntegralComponent implements OnInit {
     }, (reason) => {
       console.log('Salio de ' + metodos);
     });
+  }
+  formatLabel(value: number | null) {
+    if (!value) {
+      //this.valuemin = "0";
+      return 0;
+    }
+
+    if (value >= 1000) {
+      //this.valuemin = Number((value / 10000).toFixed(1));
+      //console.log(this.valuemin);
+      return (value / 10000).toFixed(1);
+    }
+
+    this.valuemin = value;
+    return value;
   }
 }
 

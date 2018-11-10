@@ -7,8 +7,11 @@ import { KatexModule } from 'ng-katex';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule, routedComponents } from './routing/app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
 import {
-  MatProgressBarModule
+  MatProgressBarModule,
+  MatSliderModule,
+  MatCardModule,
 } from '@angular/material';
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import {
     NgbModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    MatProgressBarModule
+    MatSliderModule,
+    MatCardModule,
+    MatProgressBarModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
