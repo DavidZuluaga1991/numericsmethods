@@ -1,18 +1,16 @@
 <mat-drawer-container class="example-container">
   <mat-drawer mode="side" opened class="container">
-    <div *ngFor= "let i of historysIntegral">
-      <img src="{{i.imgformula}}" class="cursor-art" (click)="resultEvent(i)">
+    <div *ngFor="let i of historysIntegral">
+      <ng-katex [equation]="i.equation" class="cursor-art" [options]="options" (click)="resultEvent(i)"></ng-katex>
     </div>
   </mat-drawer>
   <mat-drawer-content>
-      <div class="container">
-          <div class="jumbotron">
+    <div class="container">
+      <div class="jumbotron">
+        <div class="d-flex justify-content-center">
             <ng-katex [equation]="equation" [options]="options"></ng-katex>
-            <div class="d-flex justify-content-center">
-              
-            </div>
-          </div>
         </div>
-
+      </div>
+    </div>
   </mat-drawer-content>
 </mat-drawer-container>

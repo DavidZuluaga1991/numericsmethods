@@ -56,4 +56,3 @@ export class AppServiceService {
     //this.db.list('/historys').push(fire);
   }
 }
-//google-chrome --disable-web-security -–allow-file-access-from-files
