@@ -71,7 +71,7 @@ export class IntegralComponent implements OnInit {
   ngOnInit() {
     //console.log(Math.integral('x^2', 'x'));
   }
-  format(num: number){
+  format(num: number) {
     return Number((num / 10000).toFixed(1))
   }
   resultEvent() {
@@ -81,10 +81,43 @@ export class IntegralComponent implements OnInit {
     this.wolframalpha = (this.integralWolframalpha ? `${this.wolframalpha},{x,${((this.valuemin / 10000).toFixed(1))},${(this.valuemax / 10000).toFixed(1)}}]` : '');
     if (this.integralWolframalpha) {
       this.result();
+      this.mathMethods();
     } else {
       this.resultintegral = simplify(this.wolframalpha).toString();
       this.equation += `= ${this.resultintegral}`;
     }
+  }
+
+  mathMethods() {
+    let current = Number((this.valuemin / 10000).toFixed(1));
+    let max = Number((this.valuemax / 10000).toFixed(1));
+    let itera = Number((this.valueitera / 10000).toFixed(1));
+
+    console.log("this.valuemin", current);
+    console.log("this.valuemax", max);
+    console.log("this.valueitera", itera);
+
+    let id = 0;
+    let iterations = [];
+    while (current < max) {
+      id += 1;
+      let evl: number = this.evaluar(current);
+
+      iterations.push({
+        id,
+        xi : current,
+        fxi : evl,
+        ai: evl * itera
+      })
+      current += itera;
+    }
+
+    console.log("iterations" , iterations);
+  }
+
+  /* Evaluar en la formula sin integrar */
+  evaluar( value : number ){
+    return value;
   }
 
   result() {
@@ -133,15 +166,9 @@ export class IntegralComponent implements OnInit {
             this.equation += i;
           console.log(i);
         });
-        /*var d = derivative(this.resultintegral, 'x');
-        console.log(d.toString());*/
-        /*console.log(data);
-        console.log(this.imgformula);
-        console.log(this.imggrafica);*/
-        //console.log(this.resultintegral);
 
         this.load = false;
-        
+
         let fire = new firebases();
         fire.equation = this.equation;
         fire.wolframalpha = this.wolframalpha;
