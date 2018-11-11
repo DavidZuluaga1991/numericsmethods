@@ -124,9 +124,9 @@ export class IntegralComponent implements OnInit {
 
       iterations.push({
         id,
-        xi : current,
-        fxi : evl,
-        ai: evl * itera
+        xi : current.toFixed(9),
+        fxi : evl.toFixed(9),
+        ai: (evl * itera).toFixed(9)
       })
       current += itera;
     }
