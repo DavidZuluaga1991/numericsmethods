@@ -42,14 +42,17 @@ export class AppServiceService {
   /* FireBase */
   getHistorys(){
     let url = 'https://metodos-numericos-6384d.firebaseio.com/historys.json';
-    console.log(this.db.database.ref('/historys/' + 0).once('value'));
     return this.http.get(url);
   }
   getHistory(fire: firebases){
 
   }
   postHistory(fire: firebases){
-    this.db.database.ref('historys/'+0).set(fire);
+    let count = 0;
+    this.getHistorys().subscribe( (data: firebases[]) => {
+      count = data.length;
+      this.db.database.ref('historys/'+count).set(fire);
+    });
     //this.db.list('/historys').push(fire);
   }
 }
