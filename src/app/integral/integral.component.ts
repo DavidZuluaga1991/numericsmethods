@@ -8,6 +8,7 @@ import { RiemanComponent } from '../methods/rieman/rieman.component';
 import { TrapecioComponent } from '../methods/trapecio/trapecio.component';
 import { SimpsonComponent } from '../methods/simpson/simpson.component';
 import { RombergComponent } from '../methods/romberg/romberg.component';
+import { firebases } from './models/firebase';
 
 @Component({
   selector: 'app-integral',
@@ -134,12 +135,20 @@ export class IntegralComponent implements OnInit {
         });
         /*var d = derivative(this.resultintegral, 'x');
         console.log(d.toString());*/
-        console.log(data);
+        /*console.log(data);
         console.log(this.imgformula);
-        console.log(this.imggrafica);
+        console.log(this.imggrafica);*/
         //console.log(this.resultintegral);
 
         this.load = false;
+        
+        let fire = new firebases();
+        fire.equation = this.equation;
+        fire.wolframalpha = this.wolframalpha;
+        fire.imgformula = this.imgformula;
+        fire.imggrafica = this.imggrafica;
+        fire.resultintegral = this.resultintegral;
+        this.service.postHistory(fire);
       });
   }
 
@@ -162,11 +171,11 @@ export class IntegralComponent implements OnInit {
   }
 
   cleanOperation() {
-    this.equation = "";
-    this.wolframalpha = "";
-    this.imgformula = "";
-    this.imggrafica = "";
-    this.resultintegral = "";
+    this.equation = undefined;
+    this.wolframalpha = undefined;
+    this.imgformula = undefined;
+    this.imggrafica = undefined;
+    this.resultintegral = undefined;
     this.integralWolframalpha = false;
     this.elevado = false;
   }

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+//import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { firebases } from '../integral/models/firebase';
 
 
 @Injectable({
@@ -9,7 +12,9 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 export class AppServiceService {
   API_URL: string;
   httpOptions: any = {};
-  constructor(private http: HttpClient) { 
+
+
+  constructor(private http: HttpClient,private db: AngularFireDatabase) { 
     this.API_URL = `${environment.host}${environment.version}?${environment.appid}${environment.api_key}&${environment.input}`;
     this.httpOptions = {
       headers: new HttpHeaders({
@@ -31,6 +36,21 @@ export class AppServiceService {
     var url = `${this.API_URL}${formula}${environment.json}`;
     console.log(url);
     return this.http.get<any[]>(url, this.httpOptions);
+  }
+
+  
+  /* FireBase */
+  getHistorys(){
+    let url = 'https://metodos-numericos-6384d.firebaseio.com/historys.json';
+    console.log(this.db.database.ref('/historys/' + 0).once('value'));
+    return this.http.get(url);
+  }
+  getHistory(fire: firebases){
+
+  }
+  postHistory(fire: firebases){
+    this.db.database.ref('historys/'+0).set(fire);
+    //this.db.list('/historys').push(fire);
   }
 }
 //google-chrome --disable-web-security -–allow-file-access-from-files

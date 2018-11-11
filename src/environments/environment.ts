@@ -9,7 +9,15 @@ export const environment = {
   input: 'input=',
   appid: 'appid=',
   api_key:'Y28G28-V7Y7YQU724',
-  json: '&output=json'
+  json: '&output=json',
+  firebase: {
+    apiKey: "AIzaSyA01hanWhzV7CVrE_29K4gG3k47EmO3QQc",
+    authDomain: "metodos-numericos-6384d.firebaseapp.com",
+    databaseURL: "https://metodos-numericos-6384d.firebaseio.com",
+    projectId: "metodos-numericos-6384d",
+    storageBucket: "metodos-numericos-6384d.appspot.com",
+    messagingSenderId: "657920474537"
+  }
 };
 
 /*

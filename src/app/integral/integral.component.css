@@ -5,4 +5,7 @@
 mat-slider {
     width: 300px;
   }
-  
+
+  .cursor-art{
+    cursor:pointer;
+  }

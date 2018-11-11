@@ -5,6 +5,7 @@ import { RiemanComponent } from './../methods/rieman/rieman.component';
 import { TrapecioComponent } from './../methods/trapecio/trapecio.component';
 import { SimpsonComponent } from './../methods/simpson/simpson.component';
 import { RombergComponent } from './../methods/romberg/romberg.component';
+import { HistoryComponent } from '../history/history.component';
 
 const appRoutes: Routes = [
   {
@@ -28,6 +29,10 @@ const appRoutes: Routes = [
     component: RombergComponent
   },
   {
+    path: 'history',
+    component: HistoryComponent
+  },
+  {
     path:'**',
     redirectTo: 'numericsmethods',
     pathMatch: 'full'
@@ -39,7 +44,8 @@ export const routedComponents = [
   RiemanComponent,
   TrapecioComponent,
   SimpsonComponent,
-  RombergComponent
+  RombergComponent,
+  HistoryComponent
 ];
 
 @NgModule({

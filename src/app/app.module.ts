@@ -8,6 +8,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule, routedComponents } from './routing/app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
+
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from '@angular/fire';
+import { HeaderComponent } from './header/header/header.component';
+import { environment } from 'src/environments/environment';
+
 import {
   MatProgressBarModule,
   MatSliderModule,
@@ -15,9 +21,12 @@ import {
   MatMenuModule,
   MatIconModule,
   MatToolbarModule,
-  MatButtonModule
+  MatButtonModule,
+  MatSidenavModule
 } from '@angular/material';
-import { HeaderComponent } from './header/header/header.component';
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,14 +40,17 @@ import { HeaderComponent } from './header/header/header.component';
     NgbModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     MatSliderModule,
     MatCardModule,
     MatProgressBarModule,
-    FormsModule,
     MatMenuModule,
     MatIconModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSidenavModule,
+    AngularFireModule.initializeApp(environment.firebase, 'fcc-book-trading'),
+    AngularFireDatabaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]
