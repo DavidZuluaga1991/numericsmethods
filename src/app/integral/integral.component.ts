@@ -104,6 +104,54 @@ export class IntegralComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
+=======
+  mathMethods() {
+    let current = Number((this.valuemin / 10000).toFixed(1));
+    let max = Number((this.valuemax / 10000).toFixed(1));
+    let itera = Number((this.valueitera / 10000).toFixed(1));
+
+    console.log("this.valuemin", current);
+    console.log("this.valuemax", max);
+    console.log("this.valueitera", itera);
+
+    let id = 0;
+    let iterations = [];
+    while (current < max) {
+      id += 1;
+      let evl = this.evaluar(current);
+
+      iterations.push({
+        id,
+        xi : current.toFixed(9),
+        fxi : evl.toFixed(9),
+        ai: (evl * itera).toFixed(9)
+      })
+      current += itera;
+    }
+
+    console.log("iterations" , iterations);
+  }
+
+  /* Evaluar en la formula sin integrar */
+  evaluar( value : number ){
+    //Variable que se utiliza como temporal mientras se recorre el metodo.
+    let evl = "";
+    //Ciclo para recorrer el string o valor de la funcion para wolfram
+    for (let i = 0; i < this.eval.length; i++) {
+      //Condicion para encontrar la variable (x) y reemplazarla por value
+      if(this.eval.charAt(i) == "x"){
+        evl+= value;
+      }
+      else{
+        evl += this.eval.charAt(i);
+      }
+    }
+    //funcion simplify de mathjs para evaluar la funcion en string.
+    return Number(simplify(evl));
+  }
+
+>>>>>>> 26953d024ff5e55a71c1902516e8865d87ff8bb6
   result() {
     //Se inicializa Variable para que aparezca el cargando.
     this.load = true;
