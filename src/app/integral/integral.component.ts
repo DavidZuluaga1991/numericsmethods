@@ -19,7 +19,7 @@ import { firebases } from './models/firebase';
 export class IntegralComponent implements OnInit {
   //Variable para la carga de datos
   load: boolean = false;
-
+  metodosResult = {};
   //Variable para Katex
   equation: string;
   //Valores para el silder
@@ -84,7 +84,7 @@ export class IntegralComponent implements OnInit {
     return Number((num / 10000).toFixed(1))
   }
 
-  
+
   //Evento para obtener el recultado de la Variable
   resultEvent() {
     //this.wolframalpha = 'Integrate[((2x^2/5))--1,x]';
@@ -112,6 +112,13 @@ export class IntegralComponent implements OnInit {
     let max = Number((this.valuemax / 10000).toFixed(1));
     let itera = Number((this.valueitera / 10000).toFixed(1));
 
+    this.metodosResult = {
+      riemannMethod: this.riemannMethod(current, max, itera),
+    }
+    console.log("this.metodosResult", this.metodosResult);
+  }
+
+  riemannMethod(current, max, itera) {
     console.log("this.valuemin", current);
     console.log("this.valuemax", max);
     console.log("this.valueitera", itera);
@@ -124,27 +131,34 @@ export class IntegralComponent implements OnInit {
 
       iterations.push({
         id,
-        xi : current.toFixed(9),
-        fxi : evl.toFixed(9),
+        xi: current.toFixed(9),
+        fxi: evl.toFixed(9),
         ai: (evl * itera).toFixed(9)
       })
       current += itera;
     }
+    let sum = iterations.reduce((prev, current) => prev + parseFloat(current.ai), 0).toFixed(9);
+    let ea = parseFloat((parseFloat(this.resultintegral) - sum).toFixed(9));
 
-    console.log("iterations" , iterations);
+    return {
+      sum,
+      ea,
+      er: (ea / parseFloat(this.resultintegral)),
+      iterations: iterations
+    }
   }
 
   /* Evaluar en la formula sin integrar */
-  evaluar( value : number ){
+  evaluar(value: number) {
     //Variable que se utiliza como temporal mientras se recorre el metodo.
     let evl = "";
     //Ciclo para recorrer el string o valor de la funcion para wolfram
     for (let i = 0; i < this.eval.length; i++) {
       //Condicion para encontrar la variable (x) y reemplazarla por value
-      if(this.eval.charAt(i) == "x"){
-        evl+= value;
+      if (this.eval.charAt(i) == "x") {
+        evl += value;
       }
-      else{
+      else {
         evl += this.eval.charAt(i);
       }
     }
