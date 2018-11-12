@@ -6,6 +6,7 @@ import { TrapecioComponent } from './../methods/trapecio/trapecio.component';
 import { SimpsonComponent } from './../methods/simpson/simpson.component';
 import { RombergComponent } from './../methods/romberg/romberg.component';
 import { HistoryComponent } from '../history/history.component';
+import { ModalComponent } from '../methods/modal/modal.component';
 
 const appRoutes: Routes = [
   {
@@ -29,6 +30,10 @@ const appRoutes: Routes = [
     component: RombergComponent
   },
   {
+    path: 'modal',
+    component: ModalComponent
+  },
+  {
     path: 'history',
     component: HistoryComponent
   },
@@ -45,7 +50,8 @@ export const routedComponents = [
   TrapecioComponent,
   SimpsonComponent,
   RombergComponent,
-  HistoryComponent
+  HistoryComponent,
+  ModalComponent
 ];
 
 @NgModule({

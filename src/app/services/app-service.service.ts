@@ -34,7 +34,7 @@ export class AppServiceService {
 
   searchValue(formula: string){
     var url = `${this.API_URL}${formula}${environment.json}`;
-    console.log(url);
+    //console.log(url);
     return this.http.get<any[]>(url, this.httpOptions);
   }
 
@@ -50,7 +50,10 @@ export class AppServiceService {
   postHistory(fire: firebases){
     let count = 0;
     this.getHistorys().subscribe( (data: firebases[]) => {
-      count = data.length;
+      if(data!= undefined)
+      {
+        count = data.length;
+      }
       this.db.database.ref('historys/'+count).set(fire);
     });
     //this.db.list('/historys').push(fire);

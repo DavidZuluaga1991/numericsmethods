@@ -4,11 +4,8 @@ import { button } from './models/buttons';
 import { derivative, simplify } from 'mathjs';
 import { AppServiceService } from './../services/app-service.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RiemanComponent } from '../methods/rieman/rieman.component';
-import { TrapecioComponent } from '../methods/trapecio/trapecio.component';
-import { SimpsonComponent } from '../methods/simpson/simpson.component';
-import { RombergComponent } from '../methods/romberg/romberg.component';
 import { firebases } from './models/firebase';
+import { ModalComponent } from '../methods/modal/modal.component';
 
 @Component({
   selector: 'app-integral',
@@ -95,10 +92,10 @@ export class IntegralComponent implements OnInit {
     //Condicion para saber si va a realizar el proceso al api o no, siempre y cuando se haya agregado la integral 
     if (this.integralWolframalpha) {
       //Se arma la integral completa para enviar a wolfram 'Integrate[((2x^2/5))--1,x]'
-      this.wolframalpha = (this.integralWolframalpha ? `${this.wolframalpha},{x,${((this.valuemin / 10000).toFixed(1))},${(this.valuemax / 10000).toFixed(1)}}]` : '');
+      this.wolframalpha = (this.integralWolframalpha ? `${this.wolframalpha},{x,${(this.format(this.valuemin))},${this.format(this.valuemax)}}]` : '');
       //Se realiza el proceso para enviarla a la api de wolfram
       this.result();
-      this.mathMethods();
+      //this.mathMethods();
     } else {
       //Si no se realiza la integral tiene encuenta los metodos de mathjs
       this.resultintegral = simplify(this.wolframalpha).toString();
@@ -107,6 +104,8 @@ export class IntegralComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
+=======
   mathMethods() {
     let current = Number((this.valuemin / 10000).toFixed(1));
     let max = Number((this.valuemax / 10000).toFixed(1));
@@ -166,6 +165,7 @@ export class IntegralComponent implements OnInit {
     return Number(simplify(evl));
   }
 
+>>>>>>> 26953d024ff5e55a71c1902516e8865d87ff8bb6
   result() {
     //Se inicializa Variable para que aparezca el cargando.
     this.load = true;
@@ -226,6 +226,11 @@ export class IntegralComponent implements OnInit {
         fire.imgformula = this.imgformula;
         fire.imggrafica = this.imggrafica;
         fire.resultintegral = this.resultintegral;
+        fire.createdate = new Date().toString();
+        fire.valuemin = this.format(this.valuemin);
+        fire.valuemax = this.format(this.valuemax);
+        fire.valueitera = this.format(this.valueitera);
+        fire.eval = this.eval;
         this.service.postHistory(fire);
       });
   }
@@ -265,12 +270,17 @@ export class IntegralComponent implements OnInit {
   }
 
   //Metodo o funcion para poder sacar las modales de cada metodo
-  metod(metodos: string) {
-    const dialogRef = this.modalService.open((metodos == "rieman" ? RiemanComponent : (metodos == "simpson" ? SimpsonComponent : (metodos == "trapecio" ? TrapecioComponent : RombergComponent))), { size: 'lg' });
+  metod(methods: string) {
+    const dialogRef = this.modalService.open(ModalComponent, { size: 'lg' });
+    dialogRef.componentInstance.eval = this.eval;
+    dialogRef.componentInstance.valuemin = this.format(this.valuemin);
+    dialogRef.componentInstance.valuemax = this.format(this.valuemax);
+    dialogRef.componentInstance.valueitera = this.format(this.valueitera);
+    dialogRef.componentInstance.method = methods;
     dialogRef.result.then((result) => {
-      console.log('ingreso ' + metodos);
+      console.log('ingreso ' + methods);
     }, (reason) => {
-      console.log('Salio de ' + metodos);
+      console.log('Salio de ' + methods);
     });
   }
   //Funcion que realiza los valores del slider

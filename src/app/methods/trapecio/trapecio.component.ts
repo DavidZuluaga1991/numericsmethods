@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-trapecio',
@@ -8,11 +7,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class TrapecioComponent implements OnInit {
 
-  constructor(private activeModal: NgbActiveModal) { }
+  @Input() public valmin: number = 0;
+  @Input() public valmax: number = 0;
+  @Input() public valitera: number = 0;
+  @Input() public valeval: string= "";
+  
+  constructor() { }
 
   ngOnInit() {
-  }
-  closeModal() {
-    this.activeModal.close();
   }
 }
