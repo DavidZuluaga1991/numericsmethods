@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="modal-header">
+      <h3 mat-dialog-title>{{method | titlecase}} </h3>
+      <button class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div *ngIf="method == 'rieman'">
+      <app-rieman [valmin] = "valuemin" [valmax] = "valuemax" [valitera] = "valueitera" [valeval] = "eval"></app-rieman>
+    </div>
+    <div *ngIf="method == 'simpson'">
+        <app-simpson [valmin] = "valuemin" [valmax] = "valuemax" [valitera] = "valueitera" [valeval] = "eval"></app-simpson>
+    </div>
+    <div *ngIf="method == 'trapecio'">
+        <app-trapecio [valmin] = "valuemin" [valmax] = "valuemax" [valitera] = "valueitera" [valeval] = "eval"></app-trapecio>
+    </div>
+    <div *ngIf="method == 'romberg'">
+        <app-romberg [valmin] = "valuemin" [valmax] = "valuemax" [valitera] = "valueitera" [valeval] = "eval"></app-romberg>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" >pyo</button>
+      <button type="button" class="btn btn-default" (click)="closeModal()">Close</button>
+    </div>
+  </div>

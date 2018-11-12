@@ -22,7 +22,8 @@ import {
   MatIconModule,
   MatToolbarModule,
   MatButtonModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatTabsModule
 } from '@angular/material';
 
 
@@ -49,7 +50,8 @@ import {
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
-    AngularFireModule.initializeApp(environment.firebase, 'fcc-book-trading'),
+    MatTabsModule,
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule
   ],
   providers: [],

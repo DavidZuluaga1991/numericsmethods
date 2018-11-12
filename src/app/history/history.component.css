@@ -1,6 +1,6 @@
 .example-container {
     /*width: 400px;*/
-    height: 500px;
+    height: 530px;
     margin: 10px;
     border: 1px solid #555;
   }
@@ -9,5 +9,28 @@
     cursor:pointer;
   }
 .container{
-  width: 170px;
+  width: 220px;
+  height: 530px;overflow-y:hidden;
+}
+::-webkit-scrollbar {
+  width: 0.1px;
+}
+.example-small-box, .example-large-box {
+  display: flex;
+  /*align-items: center;
+  justify-content: center;*/
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.example-large-box {
+  height: 490px;
+}
+.mat-tab-group {
+  margin-bottom: 48px;
+}
+
+.katex{
+  height: 0.3px;
 }
