@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="row col-sm-5">
-          <div class="cursor-art" *ngIf = "imggrafica">
+          <div class="cursor-art" *ngIf="imggrafica">
             <!--<img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP1779210abd9dhi887b47000054biifb60g24a2dd?MSPStoreType=image/gif&s=30" alt="Img Integral" class="img-thumbnail cursor-art">-->
             <img src="{{imggrafica}}" alt="Img Integral" class="img-thumbnail cursor-art">
           </div>
@@ -32,15 +32,18 @@
       <div class="row col-md-8 shadow p-3 mb-3 bg-white rounded">
         <div class="row col-sm-3 offset-1 border-right">
           <label for="name">Valor Min ({{format(valuemin)}})</label>
-          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000" [(ngModel)]="valuemin" [disabled]="resultintegral"></mat-slider>
+          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000" [(ngModel)]="valuemin"
+            [disabled]="resultintegral"></mat-slider>
         </div>
         <div class="row col-sm-3  offset-1 border-right">
           <label for="name">Valor Max ({{format(valuemax)}})</label>
-          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000"[(ngModel)]="valuemax" [disabled]="resultintegral"></mat-slider>
+          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000" [(ngModel)]="valuemax"
+            [disabled]="resultintegral"></mat-slider>
         </div>
         <div class="row col-sm-3  offset-1">
           <label for="name">Num. Itera. ({{format(valueitera)}})</label>
-          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="0" max="100000"[(ngModel)]="valueitera" [disabled]="resultintegral"></mat-slider>
+          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="0" max="100000" [(ngModel)]="valueitera"
+            [disabled]="resultintegral"></mat-slider>
         </div>
       </div>
     </div>
@@ -58,5 +61,23 @@
           *ngFor="let i of metodosArray">{{i | titlecase}}</button>
       </div>
     </div>
+    <div class="d-flex justify-content-center mb-12" *ngIf="metodosResult.riemannMethod">
+
+      <div class="row col-md-8 shadow p-3 mb-3 bg-white rounded">
+        <h4>Metodo Riemann</h4>
+        <div class="row offset-1 border-right">
+          <ul>
+              <li>Resultado Integral: {{metodosResult.riemannMethod.resultintegral}}</li>
+              <li>EA: {{metodosResult.riemannMethod.ea.toFixed(9)}}</li>
+              <li>ER: {{metodosResult.riemannMethod.er.toFixed(9)}}</li>
+          </ul>
+          Tabla
+          <ul>
+            <li *ngFor="let row of metodosResult.riemannMethod.iterations">
+              id : {{row.id}} xi : {{row.xi}} fxi : {{row.fxi}} ai : {{row.ai}} </li>
+            </ul>
+          <p>Sum: {{metodosResult.riemannMethod.sum.toFixed(14)}}</p>
+        </div>
+      </div>
+    </div>
   </div>
-</div>

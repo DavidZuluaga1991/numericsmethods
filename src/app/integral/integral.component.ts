@@ -17,6 +17,7 @@ export class IntegralComponent implements OnInit {
   //Variable para la carga de datos
   load: boolean = false;
   metodosResult = {};
+
   //Variable para Katex
   equation: string;
   //Valores para el silder
@@ -95,17 +96,17 @@ export class IntegralComponent implements OnInit {
       this.wolframalpha = (this.integralWolframalpha ? `${this.wolframalpha},{x,${(this.format(this.valuemin))},${this.format(this.valuemax)}}]` : '');
       //Se realiza el proceso para enviarla a la api de wolfram
       this.result();
-      //this.mathMethods();
     } else {
       //Si no se realiza la integral tiene encuenta los metodos de mathjs
       this.resultintegral = simplify(this.wolframalpha).toString();
       //Se obtiene el resultado de la operaciòn.
       this.equation += `= ${this.resultintegral}`;
+
+      this.mathMethods();
+
     }
   }
 
-<<<<<<< HEAD
-=======
   mathMethods() {
     let current = Number((this.valuemin / 10000).toFixed(1));
     let max = Number((this.valuemax / 10000).toFixed(1));
@@ -113,8 +114,53 @@ export class IntegralComponent implements OnInit {
 
     this.metodosResult = {
       riemannMethod: this.riemannMethod(current, max, itera),
+      trapecioMethod: this.trapecioMethod(current, max, itera),
+      simpsonMethod: this.simpsonMethod(current, max, itera),
+      rambergMethod: this.rambergMethod(current, max, itera)
     }
     console.log("this.metodosResult", this.metodosResult);
+  }
+
+  trapecioMethod(current, max, itera) {
+    let sum = 0;
+    let ea = 0;
+    let iterations = [];
+
+    return {
+      resultintegral: this.resultintegral,
+      sum,
+      ea,
+      er: (ea / parseFloat(this.resultintegral)),
+      iterations: iterations
+    }
+  }
+
+  simpsonMethod(current, max, itera) {
+    let sum = 0;
+    let ea = 0;
+    let iterations = [];
+
+    return {
+      resultintegral: this.resultintegral,
+      sum,
+      ea,
+      er: (ea / parseFloat(this.resultintegral)),
+      iterations: iterations
+    }
+  }
+
+  rambergMethod(current, max, itera) {
+    let sum = 0;
+    let ea = 0;
+    let iterations = [];
+
+    return {
+      resultintegral: this.resultintegral,
+      sum,
+      ea,
+      er: (ea / parseFloat(this.resultintegral)),
+      iterations: iterations
+    }
   }
 
   riemannMethod(current, max, itera) {
@@ -136,10 +182,11 @@ export class IntegralComponent implements OnInit {
       })
       current += itera;
     }
-    let sum = iterations.reduce((prev, current) => prev + parseFloat(current.ai), 0).toFixed(9);
+    let sum = iterations.reduce((prev, current) => prev + (isNaN(parseFloat(current.ai)) ? 0 : parseFloat(current.ai)), 0);
     let ea = parseFloat((parseFloat(this.resultintegral) - sum).toFixed(9));
 
     return {
+      resultintegral: this.resultintegral,
       sum,
       ea,
       er: (ea / parseFloat(this.resultintegral)),
@@ -165,7 +212,6 @@ export class IntegralComponent implements OnInit {
     return Number(simplify(evl));
   }
 
->>>>>>> 26953d024ff5e55a71c1902516e8865d87ff8bb6
   result() {
     //Se inicializa Variable para que aparezca el cargando.
     this.load = true;
@@ -232,6 +278,9 @@ export class IntegralComponent implements OnInit {
         fire.valueitera = this.format(this.valueitera);
         fire.eval = this.eval;
         this.service.postHistory(fire);
+
+        this.mathMethods();
+
       });
   }
 
@@ -286,7 +335,17 @@ export class IntegralComponent implements OnInit {
   //Funcion que realiza los valores del slider
   formatLabel(value: number | null) {
     if (!value) {
-      return 0;
+      let sum = 0;
+      let ea = 0;
+      let iterations = [];
+
+      return {
+        resultintegral: this.resultintegral,
+        sum,
+        ea,
+        er: (ea / parseFloat(this.resultintegral)),
+        iterations: iterations
+      }
     }
 
     if (value >= 1000) {
