@@ -1,62 +1,64 @@
 <mat-progress-bar mode="indeterminate" *ngIf="load"></mat-progress-bar>
 <div class="container">
-  <div class="jumbotron">
-    <ng-katex [equation]="equation" [options]="options"></ng-katex>
+    <div class="jumbotron">
+        <ng-katex [equation]="equation" [options]="options"></ng-katex>
+        <div class="d-flex justify-content-center">
+            <div class="row col-md-7 shadow p-3 mb-3 bg-white rounded">
+                <div class="row col-sm-4 border-right">
+                    <div class="cursor-art col-sm-4 mb-2" *ngFor="let bu of buttons">
+                        <div *ngIf="!bu.katex" (click)="formula(bu)">
+                            <button type="button" class="btn btn-dark button-integral" [disabled]="resultintegral">{{bu.name}}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-sm-4 border-right">
+                    <div class="cursor-art col-sm-4 mb-2 offset-1" *ngFor="let bu of buttonsSpecial">
+                        <div *ngIf="bu.name" (click)="formula(bu)">
+                            <button type="button" class="btn btn-dark button-integral" [disabled]="resultintegral">{{bu.name}}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-sm-5">
+                    <div class="cursor-art" *ngIf="imggrafica">
+                        <!--<img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP1779210abd9dhi887b47000054biifb60g24a2dd?MSPStoreType=image/gif&s=30" alt="Img Integral" class="img-thumbnail cursor-art">-->
+                        <!--<img src="{{imggrafica}}" alt="Img Integral" class="img-thumbnail cursor-art">-->
 
-
-    <div class="d-flex justify-content-center">
-      <div class="row col-md-7 shadow p-3 mb-3 bg-white rounded">
-        <div class="row col-sm-4 border-right">
-          <div class="cursor-art col-sm-4 mb-2" *ngFor="let bu of buttons">
-            <div *ngIf="!bu.katex" (click)="formula(bu)">
-              <button type="button" class="btn btn-dark button-integral" [disabled]="resultintegral">{{bu.name}}</button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="row col-sm-4 border-right">
-          <div class="cursor-art col-sm-4 mb-2 offset-1" *ngFor="let bu of buttonsSpecial">
-            <div *ngIf="bu.name" (click)="formula(bu)">
-              <button type="button" class="btn btn-dark button-integral" [disabled]="resultintegral">{{bu.name}}</button>
+        <div class="d-flex justify-content-center mb-2">
+            <div class="row col-md-8 shadow p-3 mb-3 bg-white rounded">
+                <div class="row col-sm-3 offset-1 border-right">
+                    <label for="name">Valor Min ({{format(valuemin)}})</label>
+                    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000" [(ngModel)]="valuemin" [disabled]="resultintegral"></mat-slider>
+                </div>
+                <div class="row col-sm-3  offset-1 border-right">
+                    <label for="name">Valor Max ({{format(valuemax)}})</label>
+                    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000" [(ngModel)]="valuemax" [disabled]="resultintegral"></mat-slider>
+                </div>
+                <div class="row col-sm-3  offset-1">
+                    <label for="name">Num. Itera. ({{format(valueitera)}})</label>
+                    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="0" max="100000" [(ngModel)]="valueitera" [disabled]="resultintegral"></mat-slider>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="row col-sm-5">
-          <div class="cursor-art" *ngIf = "imggrafica">
-            <!--<img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP1779210abd9dhi887b47000054biifb60g24a2dd?MSPStoreType=image/gif&s=30" alt="Img Integral" class="img-thumbnail cursor-art">-->
-            <img src="{{imggrafica}}" alt="Img Integral" class="img-thumbnail cursor-art">
-          </div>
+        <div class="d-flex justify-content-center mb-2">
+            <button type="button" class="btn btn-success" (click)="resultEvent()" [disabled]="resultintegral">Mostrar</button>
+            <button type="button" class="btn btn-danger" (click)="cleanOperation()">Limpiar</button>
         </div>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center mb-2">
-      <div class="row col-md-8 shadow p-3 mb-3 bg-white rounded">
-        <div class="row col-sm-3 offset-1 border-right">
-          <label for="name">Valor Min ({{format(valuemin)}})</label>
-          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000" [(ngModel)]="valuemin" [disabled]="resultintegral"></mat-slider>
+        <div class="d-flex justify-content-center size-canvas">
+            <canvas baseChart [chartType]="'line'" [datasets]="chartData" [labels]="chartLabels" [colors]="myColors" [options]="chartOptions" [legend]="true" (chartClick)="onChartClick($event)">
+                </canvas>
         </div>
-        <div class="row col-sm-3  offset-1 border-right">
-          <label for="name">Valor Max ({{format(valuemax)}})</label>
-          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000"[(ngModel)]="valuemax" [disabled]="resultintegral"></mat-slider>
-        </div>
-        <div class="row col-sm-3  offset-1">
-          <label for="name">Num. Itera. ({{format(valueitera)}})</label>
-          <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="0" max="100000"[(ngModel)]="valueitera" [disabled]="resultintegral"></mat-slider>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex justify-content-center mb-2">
-      <button type="button" class="btn btn-success" (click)="resultEvent()" [disabled]="resultintegral">Mostrar</button>
-      <button type="button" class="btn btn-danger" (click)="cleanOperation()">Limpiar</button>
-    </div>
-    <!--<div class="d-flex justify-content-center mb-2" *ngIf = "imggrafica">
+        <!--<div class="d-flex justify-content-center mb-2" *ngIf = "imggrafica">
       <img src="{{imggrafica}}" alt="Img Integral" class="img-thumbnail">
     </div>-->
-    <div class="d-flex justify-content-center">
-      <div class="row col-md-7 shadow p-3 mb-3 bg-white rounded">
+        <div class="d-flex justify-content-center">
+            <div class="row col-md-7 shadow p-3 mb-3 bg-white rounded">
 
-        <button type="button" class="btn btn-success col-sm-2 offset-1" (click)="metod(i)" [disabled]="!(resultintegral && integralWolframalpha)"
-          *ngFor="let i of metodosArray">{{i | titlecase}}</button>
-      </div>
+                <button type="button" class="btn btn-success col-sm-2 offset-1" (click)="metod(i)" [disabled]="!(resultintegral && integralWolframalpha)" *ngFor="let i of metodosArray">{{i | titlecase}}</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

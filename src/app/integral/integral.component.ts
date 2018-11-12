@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { KatexOptions } from 'ng-katex';
-import { button } from './models/buttons';
-import { derivative, simplify } from 'mathjs';
-import { AppServiceService } from './../services/app-service.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { firebases } from './models/firebase';
-import { ModalComponent } from '../methods/modal/modal.component';
-
+import { Component, OnInit } from "@angular/core";
+import { KatexOptions } from "ng-katex";
+import { button } from "./models/buttons";
+import { derivative, simplify } from "mathjs";
+import { AppServiceService } from "./../services/app-service.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { firebases } from "./models/firebase";
+import { ModalComponent } from "../methods/modal/modal.component";
 @Component({
-  selector: 'app-integral',
-  templateUrl: './integral.component.html',
-  styleUrls: ['./integral.component.css'],
+  selector: "app-integral",
+  templateUrl: "./integral.component.html",
+  styleUrls: ["./integral.component.css"],
   providers: [AppServiceService]
 })
 export class IntegralComponent implements OnInit {
@@ -43,10 +42,10 @@ export class IntegralComponent implements OnInit {
   };
 
   //Array para los diferentes metodos.
-  private metodosArray: string[] = ["rieman", "simpson", "trapecio", "romberg"]
+  metodosArray: string[] = ["rieman", "simpson", "trapecio", "romberg"];
 
   //Array para obtener todos los numeros.
-  private buttons: button[] = [
+  buttons: button[] = [
     new button("1"),
     new button("2"),
     new button("3"),
@@ -57,10 +56,10 @@ export class IntegralComponent implements OnInit {
     new button("8"),
     new button("9"),
     new button("0"),
-    new button("="),
+    new button("=")
   ];
   // Array para obtener los Botones diferentes a los numericos.
-  private buttonsSpecial: button[] = [
+  buttonsSpecial: button[] = [
     new button("+", "--"),
     new button("-"),
     new button("*"),
@@ -68,31 +67,86 @@ export class IntegralComponent implements OnInit {
     new button("x"),
     new button("x^", "^"),
     new button("∫", "Integrate[", "\\int{}"),
-    new button("f(x)", undefined, "\\f{x}"),
+    new button("f(x)", undefined, "\\f{x}")
   ];
+  chartOptions = {
+    responsive: true
+  };
 
-  constructor(private service: AppServiceService, private modalService: NgbModal) {
+  //chartData: any[] = [];
+  chartData: [{
+    data: [25,16,9,4,0],
+    label: "Grafica Integral" /*, yAxisID: 'left-y-axis'*/
+  }];
+  myColors = [
+    {
+      backgroundColor: 'rgba(103, 58, 183, .1)',
+      borderColor: 'rgb(103, 58, 183)',
+      pointBackgroundColor: 'rgb(103, 58, 183)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(103, 58, 183, .8)'
+    },
+    // ...colors for additional data sets
+  ];
+  chartLabels = ["-5","-4","-3","-2","-1", "0", "1", "2", "3", "4", "5"];
+
+  onChartClick(event) {
+    console.log(event);
   }
+
+  evaluar( value : number ){
+    //Variable que se utiliza como temporal mientras se recorre el metodo.
+    let evl = "";
+    //Ciclo para recorrer el string o valor de la funcion para wolfram
+    for (let i = 0; i < this.eval.length; i++) {
+      //Condicion para encontrar la variable (x) y reemplazarla por value
+      if(this.eval.charAt(i) == "x"){
+        evl+= "(" + value + ")";
+      }
+      else{
+        evl += this.eval.charAt(i);
+      }
+    }
+    //funcion simplify de mathjs para evaluar la funcion en string.
+    return Number(simplify(evl));
+  }
+
+  private graphe(){
+    let datas: number[] = [];
+    for (let i = -5; i <= 5; i++) {
+      datas.push(this.evaluar(i));
+    }
+    this.chartData.push({
+      data: datas,
+      label: "Grafica Integral" /*, yAxisID: 'left-y-axis'*/
+    });
+    
+  }
+  constructor(
+    private service: AppServiceService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     //console.log(Math.integral('x^2', 'x'));
   }
   format(num: number) {
-    return Number((num / 10000).toFixed(1))
+    return Number((num / 10000).toFixed(1));
   }
 
-  
   //Evento para obtener el recultado de la Variable
   resultEvent() {
-    //this.wolframalpha = 'Integrate[((2x^2/5))--1,x]';
-    //this.valuemin = Number((this.valuemin / 10000).toFixed(1));
-    //this.valuemax = Number((this.valuemax / 10000).toFixed(1));
-    //Se iguala el valor a la operacion dada despues de la integral. 
+    //Se iguala el valor a la operacion dada despues de la integral.
     this.eval = this.wolframalpha.split("Integrate[")[1];
-    //Condicion para saber si va a realizar el proceso al api o no, siempre y cuando se haya agregado la integral 
+    //Condicion para saber si va a realizar el proceso al api o no, siempre y cuando se haya agregado la integral
     if (this.integralWolframalpha) {
       //Se arma la integral completa para enviar a wolfram 'Integrate[((2x^2/5))--1,x]'
-      this.wolframalpha = (this.integralWolframalpha ? `${this.wolframalpha},{x,${(this.format(this.valuemin))},${this.format(this.valuemax)}}]` : '');
+      this.wolframalpha = this.integralWolframalpha
+        ? `${this.wolframalpha},{x,${this.format(this.valuemin)},${this.format(
+            this.valuemax
+          )}}]`
+        : "";
       //Se realiza el proceso para enviarla a la api de wolfram
       this.result();
       //this.mathMethods();
@@ -104,130 +158,94 @@ export class IntegralComponent implements OnInit {
     }
   }
 
-<<<<<<< HEAD
-=======
-  mathMethods() {
-    let current = Number((this.valuemin / 10000).toFixed(1));
-    let max = Number((this.valuemax / 10000).toFixed(1));
-    let itera = Number((this.valueitera / 10000).toFixed(1));
-
-    console.log("this.valuemin", current);
-    console.log("this.valuemax", max);
-    console.log("this.valueitera", itera);
-
-    let id = 0;
-    let iterations = [];
-    while (current < max) {
-      id += 1;
-      let evl = this.evaluar(current);
-
-      iterations.push({
-        id,
-        xi : current.toFixed(9),
-        fxi : evl.toFixed(9),
-        ai: (evl * itera).toFixed(9)
-      })
-      current += itera;
-    }
-
-    console.log("iterations" , iterations);
-  }
-
-  /* Evaluar en la formula sin integrar */
-  evaluar( value : number ){
-    //Variable que se utiliza como temporal mientras se recorre el metodo.
-    let evl = "";
-    //Ciclo para recorrer el string o valor de la funcion para wolfram
-    for (let i = 0; i < this.eval.length; i++) {
-      //Condicion para encontrar la variable (x) y reemplazarla por value
-      if(this.eval.charAt(i) == "x"){
-        evl+= value;
-      }
-      else{
-        evl += this.eval.charAt(i);
-      }
-    }
-    //funcion simplify de mathjs para evaluar la funcion en string.
-    return Number(simplify(evl));
-  }
-
->>>>>>> 26953d024ff5e55a71c1902516e8865d87ff8bb6
   result() {
     //Se inicializa Variable para que aparezca el cargando.
     this.load = true;
     //Se llama el servicio el cual se consulta a las api
-    this.service.searchValue(this.wolframalpha)
-      .subscribe(data => {
-        //con lo que retorna el api se llenan las variables imgformula, imggrafica,resultintegral
-        this.imgformula = data['queryresult']['pods'][0]['subpods'][0]['img']['src'];
-        this.imggrafica = data['queryresult']['pods'][1]['subpods'][0]['img']['src'];
-        this.resultintegral = data['queryresult']['pods'][0]['subpods'][0]['plaintext'];
-        //Se usan varios split para poder sacar el valor resultante que nos interesa
-        this.resultintegral = this.resultintegral.split('=')[(this.resultintegral.split('=').length > 1 ? 1 : 0)].split("+ constant")[0].trim();
+    this.service.searchValue(this.wolframalpha).subscribe(data => {
+      //con lo que retorna el api se llenan las variables imgformula, imggrafica,resultintegral
+      this.imgformula =
+        data["queryresult"]["pods"][0]["subpods"][0]["img"]["src"];
+      this.imggrafica =
+        data["queryresult"]["pods"][1]["subpods"][0]["img"]["src"];
+      this.resultintegral =
+        data["queryresult"]["pods"][0]["subpods"][0]["plaintext"];
+      //Se usan varios split para poder sacar el valor resultante que nos interesa
+      this.resultintegral = this.resultintegral
+        .split("=")
+        [this.resultintegral.split("=").length > 1 ? 1 : 0].split(
+          "+ constant"
+        )[0]
+        .trim();
 
-        this.equation += `= `;
-        let parentesis: boolean = false;
-        let res: string = '';
+      this.equation += `= `;
+      let parentesis: boolean = false;
+      let res: string = "";
 
-        //Se hace este recorrido para poder obtener mejor el valor, ya que cuando lo retorna el api este contiene espacios y se complica al leerlo la libreria katex
-        for (let l = 0; l < this.resultintegral.length; l++) {
-          let chart: string = this.resultintegral.charAt(l);
-          if (chart == '(') {
-            parentesis = true;
-            res += chart;
-          }
-          if (!(parentesis && chart == ' ') && !(chart == ')') && !(chart == '(')) {
-            res += chart;
-          }
-          if (chart == ')') {
-            parentesis = false;
-            res += chart;
+      //Se hace este recorrido para poder obtener mejor el valor, ya que cuando lo retorna el api este contiene espacios y se complica al leerlo la libreria katex
+      for (let l = 0; l < this.resultintegral.length; l++) {
+        let chart: string = this.resultintegral.charAt(l);
+        if (chart == "(") {
+          parentesis = true;
+          res += chart;
+        }
+        if (
+          !(parentesis && chart == " ") &&
+          !(chart == ")") &&
+          !(chart == "(")
+        ) {
+          res += chart;
+        }
+        if (chart == ")") {
+          parentesis = false;
+          res += chart;
+        }
+      }
+      //Con lo recorrido anteriormente se igual el resultado de esta operacion con resultintegral
+      this.resultintegral = res;
+
+      this.resultintegral.split(" ").forEach(i => {
+        let div: boolean = false;
+        //Ciclo para saber si dentro del resultado o string hay una division.
+        for (let j = 0; j < i.length; j++) {
+          if (i.charAt(j) == "/") {
+            div = true;
           }
         }
-        //Con lo recorrido anteriormente se igual el resultado de esta operacion con resultintegral
-        this.resultintegral = res;
-
-        this.resultintegral.split(' ').forEach(i => {
-          let div: boolean = false;
-          //Ciclo para saber si dentro del resultado o string hay una division.
-          for (let j = 0; j < i.length; j++) {
-            if (i.charAt(j) == '/') {
-              div = true;
-            }
-          }
-          if (div) {
-            this.equation += `\\frac{${i.split('/')[0]}}{${i.split('/')[1]}}`;
-          }
-          else
-            this.equation += i;
-          //console.log(i);
-        });
-
-        this.load = false;
-
-        //Se inicializa un metodo para poder realizar el post a firebase
-        let fire = new firebases();
-        fire.equation = this.equation;
-        fire.wolframalpha = this.wolframalpha;
-        fire.imgformula = this.imgformula;
-        fire.imggrafica = this.imggrafica;
-        fire.resultintegral = this.resultintegral;
-        fire.createdate = new Date().toString();
-        fire.valuemin = this.format(this.valuemin);
-        fire.valuemax = this.format(this.valuemax);
-        fire.valueitera = this.format(this.valueitera);
-        fire.eval = this.eval;
-        this.service.postHistory(fire);
+        if (div) {
+          this.equation += `\\frac{${i.split("/")[0]}}{${i.split("/")[1]}}`;
+        } else this.equation += i;
+        //console.log(i);
       });
+
+      this.load = false;
+
+      //Se inicializa un metodo para poder realizar el post a firebase
+      let fire = new firebases();
+      fire.equation = this.equation;
+      fire.wolframalpha = this.wolframalpha;
+      fire.imgformula = this.imgformula;
+      fire.imggrafica = this.imggrafica;
+      fire.resultintegral = this.resultintegral;
+      fire.createdate = new Date().toString();
+      fire.valuemin = this.format(this.valuemin);
+      fire.valuemax = this.format(this.valuemax);
+      fire.valueitera = this.format(this.valueitera);
+      fire.eval = this.eval;
+      this.service.postHistory(fire);
+      this.graphe();
+    });
   }
 
   /** Funcion el cual se ejecuta al hacer el evento en el boton**/
   formula(e: button) {
     if (e.name === "x^") {
       this.elevado = true;
-    }
-    else {
-      this.equation = (this.equation == undefined ? '' : this.equation) + (this.elevado ? "^" : "") + (e.name == "∫" ? e.katex : e.name);
+    } else {
+      this.equation =
+        (this.equation == undefined ? "" : this.equation) +
+        (this.elevado ? "^" : "") +
+        (e.name == "∫" ? e.katex : e.name);
 
       if (!(e.name == "f(x)" || e.name == "=")) {
         let pru = e.name;
@@ -235,7 +253,10 @@ export class IntegralComponent implements OnInit {
           pru = e.wolframalpha;
           this.integralWolframalpha = true;
         }
-        this.wolframalpha = (this.wolframalpha == undefined ? '' : this.wolframalpha) + (this.elevado ? "^" : "") + pru;
+        this.wolframalpha =
+          (this.wolframalpha == undefined ? "" : this.wolframalpha) +
+          (this.elevado ? "^" : "") +
+          pru;
       }
     }
   }
@@ -257,17 +278,20 @@ export class IntegralComponent implements OnInit {
 
   //Metodo o funcion para poder sacar las modales de cada metodo
   metod(methods: string) {
-    const dialogRef = this.modalService.open(ModalComponent, { size: 'lg' });
+    const dialogRef = this.modalService.open(ModalComponent, { size: "lg" });
     dialogRef.componentInstance.eval = this.eval;
     dialogRef.componentInstance.valuemin = this.format(this.valuemin);
     dialogRef.componentInstance.valuemax = this.format(this.valuemax);
     dialogRef.componentInstance.valueitera = this.format(this.valueitera);
     dialogRef.componentInstance.method = methods;
-    dialogRef.result.then((result) => {
-      console.log('ingreso ' + methods);
-    }, (reason) => {
-      console.log('Salio de ' + methods);
-    });
+    dialogRef.result.then(
+      result => {
+        console.log("ingreso " + methods);
+      },
+      reason => {
+        console.log("Salio de " + methods);
+      }
+    );
   }
   //Funcion que realiza los valores del slider
   formatLabel(value: number | null) {
@@ -283,4 +307,3 @@ export class IntegralComponent implements OnInit {
     return value;
   }
 }
-
