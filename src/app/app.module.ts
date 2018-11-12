@@ -27,6 +27,7 @@ import {
 } from '@angular/material';
 
 
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {
     MatSidenavModule,
     MatTabsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
