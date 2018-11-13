@@ -35,9 +35,9 @@ export class RiemanComponent implements OnInit {
   @Input() public valmax: number = 0;
   @Input() public valitera: number = 0;
   @Input() public valeval: string= "";
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol']
+  displayedColumns: string[] = ['id', 'xi', 'fxi', 'ai']
 
-  dataSource = ELEMENT_DATA;
+  dataSource = [];
   constructor() { 
     
   }
@@ -68,7 +68,7 @@ export class RiemanComponent implements OnInit {
       })
       current += itera;
     }
-
+    this.dataSource = iterations;
     console.log("iterations" , iterations);
   }
 
@@ -80,7 +80,7 @@ export class RiemanComponent implements OnInit {
     for (let i = 0; i < this.valeval.length; i++) {
       //Condicion para encontrar la variable (x) y reemplazarla por value
       if(this.valeval.charAt(i) == "x"){
-        evl+= value;
+        evl+= "(" + value + ")";
       }
       else{
         evl += this.valeval.charAt(i);
