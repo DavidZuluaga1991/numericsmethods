@@ -15,3 +15,11 @@
     width: 600px;
     height: 350px;
 }
+
+.example-large-box {
+    height: 490px;
+}
+
+.mat-tab-group {
+    margin-bottom: 48px;
+}

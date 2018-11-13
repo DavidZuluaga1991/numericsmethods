@@ -23,17 +23,20 @@ import {
   MatToolbarModule,
   MatButtonModule,
   MatSidenavModule,
-  MatTabsModule
+  MatTabsModule,
+  MatTableModule
 } from '@angular/material';
 
 
 import { ChartsModule } from 'ng2-charts';
+import { MethodsComponent } from './methods/methods/methods.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routedComponents,
-    HeaderComponent
+    HeaderComponent,
+    MethodsComponent
   ],
   imports: [
     BrowserModule,
@@ -52,9 +55,10 @@ import { ChartsModule } from 'ng2-charts';
     MatButtonModule,
     MatSidenavModule,
     MatTabsModule,
+    MatTableModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    ChartsModule
+    ChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { KatexOptions } from "ng-katex";
 import { button } from "./models/buttons";
 import { derivative, simplify } from "mathjs";
@@ -6,6 +6,11 @@ import { AppServiceService } from "./../services/app-service.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { firebases } from "./models/firebase";
 import { ModalComponent } from "../methods/modal/modal.component";
+import { RiemanComponent } from "../methods/rieman/rieman.component";
+import { RombergComponent } from "../methods/romberg/romberg.component";
+import { SimpsonComponent } from "../methods/simpson/simpson.component";
+import { TrapecioComponent } from "../methods/trapecio/trapecio.component";
+
 @Component({
   selector: "app-integral",
   templateUrl: "./integral.component.html",
@@ -74,38 +79,37 @@ export class IntegralComponent implements OnInit {
     responsive: true
   };
 
-  //chartData: any[] = [];
-  chartData: [{
-    data: [25,16,9,4,0],
-    label: "Grafica Integral" /*, yAxisID: 'left-y-axis'*/
-  }];
+  chartData: any[] = [];
   myColors = [
     {
-      backgroundColor: 'rgba(103, 58, 183, .1)',
-      borderColor: 'rgb(103, 58, 183)',
-      pointBackgroundColor: 'rgb(103, 58, 183)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(103, 58, 183, .8)'
-    },
+      backgroundColor: "rgba(103, 58, 183, .1)",
+      borderColor: "rgb(103, 58, 183)",
+      pointBackgroundColor: "rgb(103, 58, 183)",
+      pointBorderColor: "#fff",
+      pointHoverBackgroundColor: "#fff",
+      pointHoverBorderColor: "rgba(103, 58, 183, .8)"
+    }
     // ...colors for additional data sets
   ];
-  chartLabels = ["-5","-4","-3","-2","-1", "0", "1", "2", "3", "4", "5"];
+  chartLabels = ["-5", "-4", "-3", "-2", "-1", "0", "1", "2", "3", "4", "5"];
 
   onChartClick(event) {
     console.log(event);
   }
-
-  evaluar( value : number ){
+  @ViewChild(RiemanComponent) rieman: RiemanComponent;
+  @ViewChild(RombergComponent) romberg: RombergComponent;
+  @ViewChild(SimpsonComponent) simpson: SimpsonComponent;
+  @ViewChild(TrapecioComponent) trapecio: TrapecioComponent;
+  
+  evaluar(value: number) {
     //Variable que se utiliza como temporal mientras se recorre el metodo.
     let evl = "";
     //Ciclo para recorrer el string o valor de la funcion para wolfram
     for (let i = 0; i < this.eval.length; i++) {
       //Condicion para encontrar la variable (x) y reemplazarla por value
-      if(this.eval.charAt(i) == "x"){
-        evl+= "(" + value + ")";
-      }
-      else{
+      if (this.eval.charAt(i) == "x") {
+        evl += "(" + value + ")";
+      } else {
         evl += this.eval.charAt(i);
       }
     }
@@ -113,7 +117,7 @@ export class IntegralComponent implements OnInit {
     return Number(simplify(evl));
   }
 
-  private graphe(){
+  private graphe() {
     let datas: number[] = [];
     for (let i = -5; i <= 5; i++) {
       datas.push(this.evaluar(i));
@@ -122,7 +126,6 @@ export class IntegralComponent implements OnInit {
       data: datas,
       label: "Grafica Integral" /*, yAxisID: 'left-y-axis'*/
     });
-    
   }
   constructor(
     private service: AppServiceService,
@@ -157,7 +160,6 @@ export class IntegralComponent implements OnInit {
       this.equation += `= ${this.resultintegral}`;
 
       this.mathMethods();
-
     }
   }
 
@@ -171,7 +173,7 @@ export class IntegralComponent implements OnInit {
       trapecioMethod: this.trapecioMethod(current, max, itera),
       simpsonMethod: this.simpsonMethod(current, max, itera),
       rambergMethod: this.rambergMethod(current, max, itera)
-    }
+    };
     console.log("this.metodosResult", this.metodosResult);
   }
 
@@ -184,9 +186,9 @@ export class IntegralComponent implements OnInit {
       resultintegral: this.resultintegral,
       sum,
       ea,
-      er: (ea / parseFloat(this.resultintegral)),
+      er: ea / parseFloat(this.resultintegral),
       iterations: iterations
-    }
+    };
   }
 
   simpsonMethod(current, max, itera) {
@@ -198,9 +200,9 @@ export class IntegralComponent implements OnInit {
       resultintegral: this.resultintegral,
       sum,
       ea,
-      er: (ea / parseFloat(this.resultintegral)),
+      er: ea / parseFloat(this.resultintegral),
       iterations: iterations
-    }
+    };
   }
 
   rambergMethod(current, max, itera) {
@@ -212,9 +214,9 @@ export class IntegralComponent implements OnInit {
       resultintegral: this.resultintegral,
       sum,
       ea,
-      er: (ea / parseFloat(this.resultintegral)),
+      er: ea / parseFloat(this.resultintegral),
       iterations: iterations
-    }
+    };
   }
 
   riemannMethod(current, max, itera) {
@@ -233,21 +235,24 @@ export class IntegralComponent implements OnInit {
         xi: current.toFixed(9),
         fxi: evl.toFixed(9),
         ai: (evl * itera).toFixed(9)
-      })
+      });
       current += itera;
     }
-    let sum = iterations.reduce((prev, current) => prev + (isNaN(parseFloat(current.ai)) ? 0 : parseFloat(current.ai)), 0);
+    let sum = iterations.reduce(
+      (prev, current) =>
+        prev + (isNaN(parseFloat(current.ai)) ? 0 : parseFloat(current.ai)),
+      0
+    );
     let ea = parseFloat((parseFloat(this.resultintegral) - sum).toFixed(9));
 
     return {
       resultintegral: this.resultintegral,
       sum,
       ea,
-      er: (ea / parseFloat(this.resultintegral)),
+      er: ea / parseFloat(this.resultintegral),
       iterations: iterations
-    }
+    };
   }
-
 
   result() {
     //Se inicializa Variable para que aparezca el cargando.
@@ -326,7 +331,6 @@ export class IntegralComponent implements OnInit {
       this.service.postHistory(fire);
       this.graphe();
       this.mathMethods();
-
     });
   }
 
@@ -397,9 +401,9 @@ export class IntegralComponent implements OnInit {
         resultintegral: this.resultintegral,
         sum,
         ea,
-        er: (ea / parseFloat(this.resultintegral)),
+        er: ea / parseFloat(this.resultintegral),
         iterations: iterations
-      }
+      };
     }
 
     if (value >= 1000) {
