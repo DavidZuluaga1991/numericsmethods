@@ -30,16 +30,28 @@
         <div class="d-flex justify-content-center mb-2">
             <div class="row col-md-8 shadow p-3 mb-3 bg-white rounded">
                 <div class="row col-sm-3 offset-1 border-right">
-                    <label for="name">Valor Min ({{format(valuemin)}})</label>
-                    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000" [(ngModel)]="valuemin" [disabled]="resultintegral"></mat-slider>
+                    <mat-form-field class="example-form-field">
+                        <input matInput type="number" placeholder="Valor Min" [(ngModel)]="valuemin" [disabled]="resultintegral">
+                        <button mat-button *ngIf="valuemin" matSuffix mat-icon-button aria-label="Clear" (click)="valuemin=0">
+                                  <mat-icon>close</mat-icon>
+                                </button>
+                    </mat-form-field>
                 </div>
                 <div class="row col-sm-3  offset-1 border-right">
-                    <label for="name">Valor Max ({{format(valuemax)}})</label>
-                    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="-100000" max="100000" [(ngModel)]="valuemax" [disabled]="resultintegral"></mat-slider>
+                    <mat-form-field class="example-form-field">
+                        <input matInput type="number" placeholder="Valor Max" [(ngModel)]="valuemax" [disabled]="resultintegral">
+                        <button mat-button *ngIf="valuemax" matSuffix mat-icon-button aria-label="Clear" (click)="valuemax=0">
+                                      <mat-icon>close</mat-icon>
+                                    </button>
+                    </mat-form-field>
                 </div>
                 <div class="row col-sm-3  offset-1">
-                    <label for="name">Num. Itera. ({{format(valueitera)}})</label>
-                    <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="100" min="0" max="100000" [(ngModel)]="valueitera" [disabled]="resultintegral"></mat-slider>
+                    <mat-form-field class="example-form-field">
+                        <input matInput type="number" placeholder="Num. Itera." [(ngModel)]="valueitera" [disabled]="resultintegral">
+                        <button mat-button *ngIf="valueitera" matSuffix mat-icon-button aria-label="Clear" (click)="valueitera=0">
+                                          <mat-icon>close</mat-icon>
+                                        </button>
+                    </mat-form-field>
                 </div>
             </div>
         </div>

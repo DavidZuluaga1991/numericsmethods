@@ -24,7 +24,9 @@ import {
   MatButtonModule,
   MatSidenavModule,
   MatTabsModule,
-  MatTableModule
+  MatTableModule,
+  MatInputModule,
+  MatFormFieldModule,
 } from '@angular/material';
 
 
@@ -56,6 +58,8 @@ import { MethodsComponent } from './methods/methods/methods.component';
     MatSidenavModule,
     MatTabsModule,
     MatTableModule,
+    MatInputModule,
+    MatFormFieldModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     ChartsModule,

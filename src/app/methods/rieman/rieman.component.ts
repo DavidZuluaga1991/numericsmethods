@@ -1,27 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {  simplify } from 'mathjs';
+import { parse,simplify } from 'mathjs';
 
-
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
 @Component({
   selector: 'app-rieman',
   templateUrl: './rieman.component.html',
@@ -74,11 +53,12 @@ export class RiemanComponent implements OnInit {
 
   /* Evaluar en la formula sin integrar */
   evaluar( value : number ){
+    
     //Variable que se utiliza como temporal mientras se recorre el metodo.
-    let evl = "";
+    /*let evl = "";
     //Ciclo para recorrer el string o valor de la funcion para wolfram
     for (let i = 0; i < this.valeval.length; i++) {
-      //Condicion para encontrar la variable (x) y reemplazarla por value
+      //Condicion para encontrar la variable (x) y reemplazarla por val
       if(this.valeval.charAt(i) == "x"){
         evl+= "(" + value + ")";
       }
@@ -86,7 +66,13 @@ export class RiemanComponent implements OnInit {
         evl += this.valeval.charAt(i);
       }
     }
+    let pru = simplify(evl);
+    let val : number = Number.parseFloat(pru.toString());*/
+    let node = parse(this.valeval) 
+    let eval2 = node.eval({x: value})   
+    //2(-2.8)+3(-2.8)^2
+    //let val = ((simplify(evl).toin / (10 ** 4))*(10 ** 4));
     //funcion simplify de mathjs para evaluar la funcion en string.
-    return Number(simplify(evl));
+    return Number(eval2);
   }
 }

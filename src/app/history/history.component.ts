@@ -39,8 +39,8 @@ export class HistoryComponent implements OnInit {
   constructor(private service: AppServiceService) { }
 
   ngOnInit() {
-    this.service.getHistorys().subscribe( (data: firebases[]) => {
-      this.historysIntegral = data.sort(function(a, b) {
+    this.service.getHistorys().subscribe( (datas: firebases[]) => {
+      let data = datas.sort(function(a, b) {
         if (a.createdate > b.createdate) {
           return -1;
         }
@@ -49,6 +49,17 @@ export class HistoryComponent implements OnInit {
         }
         return 0;
       });
+      data.forEach(j => {
+        let equ: string = "";
+        for (let i = 0; i < j.equation.length; i++) {
+          if(j.equation.charAt(i) == "="){
+              equ += " \\scriptsize ";
+          }
+          equ += j.equation.charAt(i);
+        }
+        j.equation = equ;
+      });
+      this.historysIntegral = data;
       if(this.historysIntegral != undefined && this.historysIntegral.length != 0){
         this.resultEvent(this.historysIntegral[0]);
       }
