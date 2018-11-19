@@ -34,7 +34,7 @@ export class AppServiceService {
 
   searchValue(formula: string){
     var url = `${this.API_URL}${formula}${environment.json}`;
-    //console.log(url);
+    console.log(url);
     return this.http.get<any[]>(url, this.httpOptions);
   }
 

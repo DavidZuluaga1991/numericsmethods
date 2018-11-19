@@ -3,26 +3,19 @@
     <div class="jumbotron">
         <ng-katex [equation]="equation" [options]="options"></ng-katex>
         <div class="d-flex justify-content-center">
-            <div class="row col-md-7 shadow p-3 mb-3 bg-white rounded">
+            <div class="row col-md-8 shadow p-3 mb-3 bg-white rounded">
                 <div class="row col-sm-4 border-right">
                     <div class="cursor-art col-sm-4 mb-2" *ngFor="let bu of buttons">
                         <div *ngIf="!bu.katex" (click)="formula(bu)">
-                            <button type="button" class="btn btn-dark button-integral" [disabled]="resultintegral">{{bu.name}}</button>
+                            <button type="button" class="btn btn-dark button-integral" [disabled]="bu.budisabled === 'disabled'">{{bu.name}}</button>
                         </div>
                     </div>
                 </div>
-                <div class="row col-sm-4 border-right">
-                    <div class="cursor-art col-sm-4 mb-2 offset-1" *ngFor="let bu of buttonsSpecial">
+                <div class="row col-sm-7">
+                    <div class="cursor-art col-sm-1 mb-2 button-special" *ngFor="let bu of buttonsSpecial">
                         <div *ngIf="bu.name" (click)="formula(bu)">
-                            <button type="button" class="btn btn-dark button-integral" [disabled]="resultintegral">{{bu.name}}</button>
+                            <button type="button" class="btn btn-dark button-integral" [disabled]="bu.budisabled === 'disabled'">{{bu.name}}</button>
                         </div>
-                    </div>
-                </div>
-                <div class="row col-sm-5">
-                    <div class="cursor-art" *ngIf="imggrafica">
-                        <!--<img src="http://www5a.wolframalpha.com/Calculate/MSP/MSP1779210abd9dhi887b47000054biifb60g24a2dd?MSPStoreType=image/gif&s=30" alt="Img Integral" class="img-thumbnail cursor-art">-->
-                        <!--<img src="{{imggrafica}}" alt="Img Integral" class="img-thumbnail cursor-art">-->
-
                     </div>
                 </div>
             </div>
@@ -59,9 +52,8 @@
             <button type="button" class="btn btn-success" (click)="resultEvent()" [disabled]="resultintegral">Mostrar</button>
             <button type="button" class="btn btn-danger" (click)="cleanOperation()">Limpiar</button>
         </div>
-        <div class="d-flex justify-content-center size-canvas" *ngIf="imggrafica">
-            <canvas baseChart [chartType]="'line'" [datasets]="chartData" [labels]="chartLabels" [colors]="myColors" [options]="chartOptions" [legend]="true" (chartClick)="onChartClick($event)">
-                </canvas>
+        <div class="d-flex justify-content-center" *ngIf="resultintegral">
+            <app-graphics [eval]="eval"></app-graphics>
         </div>
         <!--<div class="d-flex justify-content-center mb-2" *ngIf = "imggrafica">
       <img src="{{imggrafica}}" alt="Img Integral" class="img-thumbnail">
@@ -72,7 +64,7 @@
                 <button type="button" class="btn btn-success col-sm-2 offset-1" (click)="metod(i)" [disabled]="!(resultintegral && integralWolframalpha)" *ngFor="let i of metodosArray">{{i | titlecase}}</button>
             </div>
         </div>-->
-        <div class="example-large-box mat-elevation-z4" *ngIf="imggrafica">
+        <div class="example-large-box mat-elevation-z4" *ngIf="resultintegral">
             <div class="row col-sm-12">
                 <div class="row mb-2 offset-1">
                     <mat-tab-group mat-align-tabs="start">

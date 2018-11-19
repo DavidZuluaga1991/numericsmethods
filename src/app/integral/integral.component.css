@@ -11,9 +11,8 @@
     cursor: pointer;
 }
 
-.size-canvas {
-    width: 600px;
-    height: 350px;
+.button-special {
+    margin-left: 20px;
 }
 
 .example-large-box {

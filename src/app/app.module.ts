@@ -32,13 +32,15 @@ import {
 
 import { ChartsModule } from 'ng2-charts';
 import { MethodsComponent } from './methods/methods/methods.component';
+import { GraphicsComponent } from './graphics/graphics/graphics.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routedComponents,
     HeaderComponent,
-    MethodsComponent
+    MethodsComponent,
+    GraphicsComponent
   ],
   imports: [
     BrowserModule,
