@@ -64,24 +64,9 @@
                 <button type="button" class="btn btn-success col-sm-2 offset-1" (click)="metod(i)" [disabled]="!(resultintegral && integralWolframalpha)" *ngFor="let i of metodosArray">{{i | titlecase}}</button>
             </div>
         </div>-->
-        <div class="example-large-box mat-elevation-z4" *ngIf="resultintegral">
-            <div class="row col-sm-12">
-                <div class="row mb-2 offset-1">
-                    <mat-tab-group mat-align-tabs="start">
-                        <mat-tab label="Rieman">
-                            <app-rieman [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval"></app-rieman>
-                        </mat-tab>
-                        <mat-tab label="Simpson">
-                            <app-simpson [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval"></app-simpson>
-                        </mat-tab>
-                        <mat-tab label="Trapecio">
-                            <app-trapecio [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval"></app-trapecio>
-                        </mat-tab>
-                        <mat-tab label="Romberg">
-                            <app-romberg [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval"></app-romberg>
-                        </mat-tab>
-                    </mat-tab-group>
-                </div>
+        <div class="d-flex justify-content-center" *ngIf="resultintegral">
+            <div class="row col-sm-15">
+                <app-methods [valuemin]="valuemin" [valuemax]="valuemax" [valueitera]="valueitera" [eval]="eval" class="mb-2 example-large-box mat-elevation-z5"></app-methods>
             </div>
         </div>
     </div>

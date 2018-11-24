@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-methods',
@@ -6,6 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./methods.component.css']
 })
 export class MethodsComponent implements OnInit {
+
+  @Input() public valuemin: number = 0;
+  @Input() public valuemax: number = 0;
+  @Input() public valueitera: number = 0;
+  @Input() public eval: string= "";
 
   constructor() { }
 

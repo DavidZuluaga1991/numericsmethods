@@ -17,6 +17,8 @@
 
 .example-large-box {
     height: 490px;
+    align-items: center;
+    justify-content: center;
 }
 
 .mat-tab-group {

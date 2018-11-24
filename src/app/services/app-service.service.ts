@@ -3,7 +3,7 @@ import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 //import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { firebases } from '../integral/models/firebase';
+import { firebases } from '../pages/integral/models/firebase';
 
 
 @Injectable({

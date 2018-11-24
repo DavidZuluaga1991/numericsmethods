@@ -41,9 +41,9 @@ export class RiemanComponent implements OnInit {
 
       iterations.push({
         id,
-        xi : current,
-        fxi : evl,
-        ai: evl * itera
+        xi : current.toFixed(20),
+        fxi : evl.toFixed(20),
+        ai: (evl * itera).toFixed(20)
       })
       current += itera;
     }

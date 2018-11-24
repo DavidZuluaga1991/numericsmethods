@@ -31,8 +31,8 @@ import {
 
 
 import { ChartsModule } from 'ng2-charts';
-import { MethodsComponent } from './methods/methods/methods.component';
-import { GraphicsComponent } from './graphics/graphics/graphics.component';
+import { MethodsComponent } from './pages/methods/methods/methods.component';
+import { GraphicsComponent } from './pages/graphics/graphics/graphics.component';
 
 @NgModule({
   declarations: [

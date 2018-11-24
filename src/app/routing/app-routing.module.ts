@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { IntegralComponent } from './../integral/integral.component';
-import { RiemanComponent } from './../methods/rieman/rieman.component';
-import { TrapecioComponent } from './../methods/trapecio/trapecio.component';
-import { SimpsonComponent } from './../methods/simpson/simpson.component';
-import { RombergComponent } from './../methods/romberg/romberg.component';
-import { HistoryComponent } from '../history/history.component';
-import { ModalComponent } from '../methods/modal/modal.component';
+import { IntegralComponent } from './../pages/integral/integral.component';
+import { RiemanComponent } from './../pages/methods/rieman/rieman.component';
+import { TrapecioComponent } from './../pages/methods/trapecio/trapecio.component';
+import { SimpsonComponent } from './../pages/methods/simpson/simpson.component';
+import { RombergComponent } from './../pages/methods/romberg/romberg.component';
+import { HistoryComponent } from '../pages/history/history.component';
+import { ModalComponent } from '../pages/methods/modal/modal.component';
 
 const appRoutes: Routes = [
   {

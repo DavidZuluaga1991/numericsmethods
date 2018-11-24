@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { KatexOptions } from "ng-katex";
 import { button } from "./models/buttons";
 import { parse,derivative, simplify } from "mathjs";
-import { AppServiceService } from "./../services/app-service.service";
+import { AppServiceService } from "./../../services/app-service.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { firebases } from "./models/firebase";
 import { ModalComponent } from "../methods/modal/modal.component";
@@ -95,9 +95,10 @@ export class IntegralComponent implements OnInit {
 
   ngOnInit() {
     //console.log(Math.integral('x^2', 'x'));
+    console.log(simplify('sin(-5)^3'));
     console.log(simplify('2(-5)+3(-5)^2+sin(-5)').toString());
     let node = parse('2x+3x^2+sin(x)'); 
-    let eval2 = node.eval({x: -5}) 
+    let eval2 = node.eval({x: -5}); 
     console.log(eval2);
   }
 
@@ -306,7 +307,7 @@ export class IntegralComponent implements OnInit {
       });
       
       this.buttonsSpecial.forEach(i => {
-        if(!(i.name === "(" || i.name === (val ==="x^" ? "" : "x^")))
+        if(!(i.name === "("))
         {
           i.budisabled  = 'disabled';
         }

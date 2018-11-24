@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { AppServiceService } from "../services/app-service.service";
 import { KatexOptions } from "ng-katex";
-import { firebases } from "../integral/models/firebase";
 import { RiemanComponent } from "./../methods/rieman/rieman.component";
 import { RombergComponent } from "../methods/romberg/romberg.component";
 import { SimpsonComponent } from "../methods/simpson/simpson.component";
 import { TrapecioComponent } from "../methods/trapecio/trapecio.component";
+import { AppServiceService } from "src/app/services/app-service.service";
+import { firebases } from "../integral/models/firebase";
 
 @Component({
   selector: "app-history",
