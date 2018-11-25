@@ -14,7 +14,7 @@ export class RiemanComponent implements OnInit {
   @Input() public valmax: number = 0;
   @Input() public valitera: number = 0;
   @Input() public valeval: string = "";
-  displayedColumns: string[] = ['id', 'xi', 'fxi', 'ai']
+  displayedColumns: string[] = ['id', 'xi', 'fxi', 'ai'];
 
   dataSource = [];
   constructor() {
@@ -36,21 +36,30 @@ export class RiemanComponent implements OnInit {
     //console.log("this.dx", dx);
 
     let id = 0;
+    let result = 0;
     let iterations = [];
     while (current < max) {
-      id += 1;
+      id++;
       let evl = this.evaluar(current);
+      let ai = (evl * dx);
 
       iterations.push({
         id,
         xi: current.toFixed(20),
         fxi: evl.toFixed(20),
-        ai: (evl * dx).toFixed(20)
-      })
+        ai: (ai).toFixed(20)
+      });
+      result += ai;
       current += dx;
     }
+    iterations.push({
+      id:"",
+      xi:"",
+      fxi:"",
+      ai: "S= " + (result).toFixed(17)
+    });
     this.dataSource = iterations;
-    console.log("iterations", iterations);
+    //console.log("iterations", iterations);
   }
 
   /* Evaluar en la formula sin integrar */
