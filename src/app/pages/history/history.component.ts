@@ -19,6 +19,7 @@ export class HistoryComponent implements OnInit {
   valuemin: number = 0;
   valuemax: number = 0;
   valueitera: number = 0;
+  resultintegral: string;
   eval: string;
   fi: firebases;
 
@@ -81,6 +82,7 @@ export class HistoryComponent implements OnInit {
       this.valuemin = fire.valuemin;
       this.valuemax = fire.valuemax;
       this.valueitera = fire.valueitera;
+      this.resultintegral = fire.resultintegral;
       this.eval = fire.eval;
       this.pru = true;
     }, 100);

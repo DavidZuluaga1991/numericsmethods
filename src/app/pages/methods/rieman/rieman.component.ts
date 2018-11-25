@@ -29,9 +29,9 @@ export class RiemanComponent implements OnInit {
     let max: number  = this.valmax;
     let itera: number  = this.valitera;
 
-    console.log("this.valuemin", current);
-    console.log("this.valuemax", max);
-    console.log("this.valueitera", itera);
+    //console.log("this.valuemin", current);
+    //console.log("this.valuemax", max);
+    //console.log("this.valueitera", itera);
 
     let id = 0;
     let iterations = [];
@@ -48,7 +48,7 @@ export class RiemanComponent implements OnInit {
       current += itera;
     }
     this.dataSource = iterations;
-    console.log("iterations" , iterations);
+    //console.log("iterations" , iterations);
   }
 
   /* Evaluar en la formula sin integrar */

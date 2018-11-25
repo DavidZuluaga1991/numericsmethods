@@ -1,2 +1,9 @@
-<canvas baseChart [chartType]="'line'" [datasets]="chartData" [labels]="chartLabels" [colors]="myColors" [options]="chartOptions" [legend]="true" (chartClick)="onChartClick($event)" class="size-canvas">
+<canvas baseChart [chartType]="'line'" [datasets]="chartData" [labels]="chartLabels" [colors]="myColors" [options]="chartOptions" [legend]="true" (chartClick)="onChartClick($event)" class="size-canvas" *ngIf="ope">
 </canvas>
+
+<div class="d-flex justify-content-center mb-2">
+    <div class="example-button-row">
+        <button mat-flat-button color="primary" (click)="operation('+')">+</button>
+        <button mat-flat-button color="warn" (click)="operation('-')">-</button>
+    </div>
+</div>
