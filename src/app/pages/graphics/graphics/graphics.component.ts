@@ -52,18 +52,18 @@ export class GraphicsComponent implements OnInit {
     let datas: number[] = [];
     let datas2: number[] = [];
     let result= Number(this.resultintegral);
-    let prox = (result  * 10);
     let j = 10;
     if(result < 0){
       j = ((result - this.fromNum) < 20) ? ((result - this.fromNum) < 10) ? 5 : 4 : 1;
     }
     else{
-      j = ((result - this.toNum) < -20) ? ((result - this.toNum) < -10) ? 5 : 4 : 1;
+      j = ((result - this.toNum) > -35) ? ((result - this.toNum) > -10) ? 5 : 4 : 1;
     }
+    console.log(j);
     for (let i = this.fromNum; i <= this.toNum; ) {
       let ev = this.evaluar(i/10);
       datas.push(ev);
-      if( (i/10) >= (result-0.25) && (i/10) <= (result+0.2))
+      if( (i/10) >= (result-0.1) && (i/10) <= (result+0.1))
       {
         datas2.push(ev);
       }
@@ -83,30 +83,16 @@ export class GraphicsComponent implements OnInit {
   }
 
   evaluar(value: number) {
-    //Variable que se utiliza como temporal mientras se recorre el metodo.
-    //let evl = "";
-    //Ciclo para recorrer el string o valor de la funcion para wolfram
-    /*for (let i = 0; i < this.eval.length; i++) {
-      //Condicion para encontrar la variable (x) y reemplazarla por value
-      if (this.eval.charAt(i) == "x") {
-        evl += "(" + value + ")";
-      } else {
-        evl += this.eval.charAt(i);
-      }
-    }*/
-    //let p = this.eval.split("sin");
     let node = parse(this.eval); 
     let eval2 = node.eval({x: value})   
     this.chartLabels.push(value.toFixed(2).toString());
-    //console.log(evl);
-    //console.log(`eval2 = ${eval2}`);
-    //console.log(simplify(evl));
     //funcion simplify de mathjs para evaluar la funcion en string.
     return Number(eval2);
   }
   onChartClick(event) {
     console.log(event);
   }
+  //Se evalua como va a 
   formto(p : number){
     let prox = (Number(this.resultintegral)  * p);
     if(Number(this.resultintegral) < 0){

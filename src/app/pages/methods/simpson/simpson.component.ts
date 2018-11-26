@@ -12,6 +12,7 @@ export class SimpsonComponent implements OnInit {
   @Input() public valmax: number = 0;
   @Input() public valitera: number = 0;
   @Input() public valeval: string = "";
+  @Input() public resultintegral: number = 0;
   displayedColumns: string[] = ['id', 'xi', 'fxi', 'fxii', 'fxiii', 'ai'];
 
   dataSource = [];

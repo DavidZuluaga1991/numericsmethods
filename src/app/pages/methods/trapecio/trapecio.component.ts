@@ -11,6 +11,7 @@ export class TrapecioComponent implements OnInit {
   @Input() public valmin: number = 0;
   @Input() public valmax: number = 0;
   @Input() public valitera: number = 0;
+  @Input() public resultintegral: number = 0;
   @Input() public valeval: string = "";
   displayedColumns: string[] = ['id', 'xi', 'fxi', 'fxii', 'ai'];
 

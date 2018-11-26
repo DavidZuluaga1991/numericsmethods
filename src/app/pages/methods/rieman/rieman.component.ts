@@ -14,6 +14,7 @@ export class RiemanComponent implements OnInit {
   @Input() public valmax: number = 0;
   @Input() public valitera: number = 0;
   @Input() public valeval: string = "";
+  @Input() public resultintegral: number = 0;
   displayedColumns: string[] = ['id', 'xi', 'fxi', 'ai'];
 
   dataSource = [];
@@ -21,6 +22,7 @@ export class RiemanComponent implements OnInit {
 
   }
   ngOnInit() {
+    console.log(this.resultintegral);
     this.mathMethods();
   }
 
@@ -42,14 +44,19 @@ export class RiemanComponent implements OnInit {
       id++;
       let evl = this.evaluar(current);
       let ai = (evl * dx);
-
+      result += ai;
+      if(Number(this.resultintegral) <= result)
+      {
+        console.log(result);
+        result -= ai;
+        break;
+      }
       iterations.push({
         id,
         xi: current.toFixed(20),
         fxi: evl.toFixed(20),
         ai: (ai).toFixed(20)
       });
-      result += ai;
       current += dx;
     }
     iterations.push({
