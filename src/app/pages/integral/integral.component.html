@@ -3,8 +3,20 @@
     <div class="jumbotron">
         <ng-katex [equation]="equation" [options]="options"></ng-katex>
         <div class="d-flex justify-content-center">
-            <div class="row col-md-8 shadow p-3 mb-3 bg-white rounded">
-                <div class="row col-sm-4 border-right">
+            <div class="row col-md-7 shadow p-3 mb-3 bg-white rounded">
+                <div class="row">
+                    <div class="cursor-art mb-2 button-special" *ngFor="let bu of buttons">
+                        <div *ngIf="bu.name" (click)="formula(bu)">
+                            <button type="button" class="btn btn-dark button-integral" [disabled]="bu.budisabled === 'disabled'">{{bu.name}}</button>
+                        </div>
+                    </div>
+                    <div class="cursor-art mb-2 button-special" *ngFor="let bu of buttonsSpecial">
+                        <div *ngIf="bu.name" (click)="formula(bu)">
+                            <button type="button" class="btn btn-dark button-integral" [disabled]="bu.budisabled === 'disabled'">{{bu.name}}</button>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="row col-sm-4 border-right">
                     <div class="cursor-art col-sm-4 mb-2" *ngFor="let bu of buttons">
                         <div *ngIf="!bu.katex" (click)="formula(bu)">
                             <button type="button" class="btn btn-dark button-integral" [disabled]="bu.budisabled === 'disabled'">{{bu.name}}</button>
@@ -17,7 +29,7 @@
                             <button type="button" class="btn btn-dark button-integral" [disabled]="bu.budisabled === 'disabled'">{{bu.name}}</button>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
         <div class="d-flex justify-content-center mb-2">

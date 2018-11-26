@@ -53,6 +53,7 @@ export class IntegralComponent implements OnInit {
 
   //Array para obtener todos los numeros.
   buttons: button[] = [
+    new button("0"),
     new button("1"),
     new button("2"),
     new button("3"),
@@ -62,25 +63,27 @@ export class IntegralComponent implements OnInit {
     new button("7"),
     new button("8"),
     new button("9"),
-    new button("0"),
-    new button("=")
   ];
   // Array para obtener los Botones diferentes a los numericos.
-  buttonsSpecial: button[] = [
-    new button("+", "--"),
-    new button("-"),
-    new button("*"),
-    new button("/", undefined, "\\frac{a}{b}"),
-    new button("x"),
-    new button("x^", "^"),
-    new button("(",undefined, "\\lparen "),
-    new button(")",undefined, "\\rparen "),
-    new button("∫", "Integrate[", "\\int{}"),
-    new button("f(x)", undefined, "\\f{x}"),
-    new button("sin",undefined, "\\sin "),
-    new button("cos",undefined, "\\cos "),
-    new button("sec",undefined, "\\sec "),
-    new button("tan",undefined, "\\tan ")
+  buttonsSpecial: button[] = [new button("π"),
+  new button("e"),
+  new button("+", "--"),
+  new button("-"),
+  new button("*"),
+  new button("/", undefined, "\\frac{a}{b}"),
+  new button("(",undefined, "\\lparen "),
+  new button(")",undefined, "\\rparen "),
+  new button("x^", "^"),
+  new button("log",undefined, "\\log "),
+  new button("sin",undefined, "\\sin "),
+  new button("cos",undefined, "\\cos "),
+  new button("sec",undefined, "\\sec "),
+  new button("tan",undefined, "\\tan "),
+  new button("."),
+  new button("∫", "Integrate[", "\\int{}"),
+  new button("x"),
+  new button("f(x)", undefined, "\\f{x}"),
+  new button("="),
   ];  
 
   @ViewChild(RiemanComponent) rieman: RiemanComponent;
@@ -95,11 +98,11 @@ export class IntegralComponent implements OnInit {
 
   ngOnInit() {
     //console.log(Math.integral('x^2', 'x'));
-    console.log(simplify('sin(-5)^3'));
+    /*console.log(simplify('sin(-5)^3'));
     console.log(simplify('2(-5)+3(-5)^2+sin(-5)').toString());
     let node = parse('2x+3x^2+sin(x)'); 
     let eval2 = node.eval({x: -5}); 
-    console.log(eval2);
+    console.log(eval2);*/
   }
 
   //Evento para obtener el recultado de la Variable
@@ -234,7 +237,7 @@ export class IntegralComponent implements OnInit {
           (pru === "+" ? e.wolframalpha : pru);
         this.elevado = false;
       }
-      if(e.name === "sin" || e.name === "cos" || e.name === "tan" || e.name === "sec"){
+      if(e.name === "log" || e.name === "sin" || e.name === "cos" || e.name === "tan" || e.name === "sec"){
         this.functionDisabled(false,e.name);
       }
       else{
@@ -303,7 +306,7 @@ export class IntegralComponent implements OnInit {
     //let disabled = true;
     if(!disabled){
       this.buttons.forEach(i => {
-        if(i.name == "="){
+        if(i.name === "="){
           i.budisabled = 'disabled';
         }
       });
