@@ -150,7 +150,9 @@ export class IntegralComponent implements OnInit {
             "+ constant"
           )[0]
           .trim();
-
+        if(this.resultintegral.split("≈").length > 1){
+          this.resultintegral = this.resultintegral.split("≈")[1];
+        }
         this.equation += `= `;
         let parentesis: boolean = false;
         let res: string = "";

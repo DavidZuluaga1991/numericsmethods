@@ -8,6 +8,24 @@
         <div class="example-large-box" *ngIf="equation">
             <ng-katex [equation]="equation" [options]="options" class="katex"></ng-katex>
             <div class="d-flex justify-content-center">
+                <table class="table col-sm-6 justify-content-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Desde</th>
+                            <th scope="col">Hasta</th>
+                            <th scope="col">Num. Iteraciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{valuemin}}</td>
+                            <td>{{valuemax}}</td>
+                            <td>{{valueitera}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center">
                 <app-graphics [eval]="eval" [resultintegral]="resultintegral"></app-graphics>
             </div>
             <div class="row col-sm-15">
