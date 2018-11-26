@@ -39,6 +39,12 @@ export class SimpsonComponent implements OnInit {
       let fxiii = this.evaluar(current + (dx * 2));
       let ai = ((fxi + 4 * (fxii) + fxiii) / 3) * dx;
 
+      result += (id % 2 == 0 ? 0 : ai);
+      if (Number(this.resultintegral) <= result) {
+        console.log(result);
+        break;
+      }
+
       iterations.push({
         id,
         xi: current.toFixed(10),
@@ -47,7 +53,7 @@ export class SimpsonComponent implements OnInit {
         fxiii: fxiii.toFixed(10),
         ai: (ai).toFixed(10)
       });
-      result += (id % 2 == 0 ? 0 : ai);
+
       current += dx;
     }
     iterations.push({

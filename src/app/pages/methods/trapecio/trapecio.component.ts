@@ -28,19 +28,26 @@ export class TrapecioComponent implements OnInit {
     let itera: number = this.valitera;
     let dx: number = (max - current) / itera;
 
-    //console.log("this.valuemin", current);
-    //console.log("this.valuemax", max);
-    //console.log("this.valueitera", itera);
-    //console.log("this.dx", dx);
-
     let id = 0;
     let result = 0;
     let iterations = [];
+
+    if (itera < 1) {
+      console.warn("Cantidad de Iteraciones no Válida: " + itera);
+      return;
+    }
+
     while (current < max) {
       id++;
       let fxi = this.evaluar(current);
       let fxii = this.evaluar(current + dx);
       let ai = ((fxi + fxii) / 2) * dx;
+      result += ai;
+
+      if (Number(this.resultintegral) <= result) {
+        console.log(result);
+        break;
+      }
 
       iterations.push({
         id,
@@ -49,7 +56,6 @@ export class TrapecioComponent implements OnInit {
         fxii: fxii.toFixed(12),
         ai: (ai).toFixed(12)
       });
-      result += ai;
       current += dx;
     }
     iterations.push({

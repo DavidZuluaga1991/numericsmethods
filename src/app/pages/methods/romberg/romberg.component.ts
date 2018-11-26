@@ -28,6 +28,16 @@ export class RombergComponent implements OnInit {
     let max: number = this.valmax;
     let itera: number = this.valitera;
 
+    if (itera < 2) {
+      console.warn("Cantidad de Iteraciones no Válida: " + itera);
+      return;
+    }
+
+    if (itera % 2 != 0) {
+      console.warn("Cantidad de Iteraciones debe ser par: " + itera);
+      return;
+    }
+
     let r = [];
     for (let i = 0; i <= this.valitera; i++) {
       r[i] = [];

@@ -32,21 +32,21 @@ export class RiemanComponent implements OnInit {
     let itera: number = this.valitera;
     let dx: number = (max - current) / itera;
 
-    //console.log("this.valuemin", current);
-    //console.log("this.valuemax", max);
-    //console.log("this.valueitera", itera);
-    //console.log("this.dx", dx);
-
     let id = 0;
     let result = 0;
     let iterations = [];
+
+    if (itera < 1) {
+      console.warn("Cantidad de Iteraciones no Válida: " + itera);
+      return;
+    }
+
     while (current < max) {
       id++;
       let evl = this.evaluar(current);
       let ai = (evl * dx);
       result += ai;
-      if(Number(this.resultintegral) <= result)
-      {
+      if (Number(this.resultintegral) <= result) {
         console.log(result);
         result -= ai;
         break;
@@ -59,12 +59,14 @@ export class RiemanComponent implements OnInit {
       });
       current += dx;
     }
+
     iterations.push({
-      id:"",
-      xi:"",
-      fxi:"",
+      id: "",
+      xi: "",
+      fxi: "",
       ai: "S= " + (result).toFixed(17)
     });
+
     this.dataSource = iterations;
     //console.log("iterations", iterations);
   }
