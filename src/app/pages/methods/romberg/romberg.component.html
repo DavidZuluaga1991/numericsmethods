@@ -1,3 +1,37 @@
-<div>
-    hola como estas Romberg?
-  </div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> <b>i</b> </th>
+    <td mat-cell *matCellDef="let element"> <b>{{element.id}}</b> </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="xi">
+    <th mat-header-cell *matHeaderCellDef> <b>Xi</b> </th>
+    <td mat-cell *matCellDef="let element"> {{element.xi}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="fxi">
+    <th mat-header-cell *matHeaderCellDef> <b>f(Xi)</b> </th>
+    <td mat-cell *matCellDef="let element"> {{element.fxi}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="fxii">
+    <th mat-header-cell *matHeaderCellDef> <b>f(Xi + 1) </b> </th>
+    <td mat-cell *matCellDef="let element"> {{element.fxii}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ai">
+    <th mat-header-cell *matHeaderCellDef> <b>Ai</b> </th>
+    <td mat-cell *matCellDef="let element"> {{element.ai}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
