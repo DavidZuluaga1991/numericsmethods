@@ -34,6 +34,7 @@ export class RiemanComponent implements OnInit {
 
     let id = 0;
     let result = 0;
+    let error = 0;
     let iterations = [];
 
     if (itera < 1) {
@@ -66,6 +67,10 @@ export class RiemanComponent implements OnInit {
       fxi: "",
       ai: "S= " + (result).toFixed(17)
     });
+
+    error = (Math.abs(Number(this.resultintegral) - result)) / Number(this.resultintegral);
+    console.log("ERROR REAL RIEMANN: " + error.toExponential(5));
+    console.log("%ERROR REAL RIEMANN: " + (error * 100).toFixed(2) + "%");
 
     this.dataSource = iterations;
     //console.log("iterations", iterations);

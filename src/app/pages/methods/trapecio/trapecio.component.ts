@@ -30,6 +30,7 @@ export class TrapecioComponent implements OnInit {
 
     let id = 0;
     let result = 0;
+    let error = 0;
     let iterations = [];
 
     if (itera < 1) {
@@ -66,6 +67,10 @@ export class TrapecioComponent implements OnInit {
       ai: "S= " + (result).toFixed(9)
     });
     this.dataSource = iterations;
+
+    error = (Math.abs(Number(this.resultintegral) - result)) / Number(this.resultintegral);
+    console.log("ERROR REAL TRAPECIO: " + error.toExponential(5));
+    console.log("%ERROR REAL TRAPECIO: " + (error * 100).toFixed(2) + "%");
     //console.log("iterations", iterations);
   }
 

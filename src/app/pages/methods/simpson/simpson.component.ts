@@ -31,7 +31,9 @@ export class SimpsonComponent implements OnInit {
 
     let id = 0;
     let result = 0;
+    let error = 0;
     let iterations = [];
+
     while (current < max) {
       id++;
       let fxi = this.evaluar(current);
@@ -63,6 +65,9 @@ export class SimpsonComponent implements OnInit {
       ai: "S= " + (result).toFixed(7)
     });
     this.dataSource = iterations;
+    error = (Math.abs(Number(this.resultintegral) - result)) / Number(this.resultintegral);
+    console.log("ERROR REAL SIMPSON: " + error.toExponential(5));
+    console.log("%ERROR REAL SIMPSON: " + (error * 100).toFixed(2) + "%");
     //console.log("iterations", iterations);
   }
 
