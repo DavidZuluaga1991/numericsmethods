@@ -65,7 +65,8 @@ export class IntegralComponent implements OnInit {
     new button("9"),
   ];
   // Array para obtener los Botones diferentes a los numericos.
-  buttonsSpecial: button[] = [new button("π"),
+  buttonsSpecial: button[] = [
+    new button("π"),
   new button("e"),
   new button("+", "--"),
   new button("-"),
@@ -99,16 +100,27 @@ export class IntegralComponent implements OnInit {
   ngOnInit() {
     //console.log(Math.integral('x^2', 'x'));
     /*console.log(simplify('sin(-5)^3'));
-    console.log(simplify('2(-5)+3(-5)^2+sin(-5)').toString());
-    let node = parse('2x+3x^2+sin(x)'); 
-    let eval2 = node.eval({x: -5}); 
-    console.log(eval2);*/
+    console.log(simplify('2(-5)+3(-5)^2+sin(-5)').toString());*/
+    let node = parse('x^pi'); 
+    let eval2 = node.eval({x: 2}); 
+    console.log(eval2);
+    //console.log(simplify('integrate(f(x), x, 0, 2)'));
+    //simplify('integrate(x^0.5, x, 0, 1)');
   }
 
   //Evento para obtener el recultado de la Variable
   resultEvent() {
     //Se iguala el valor a la operacion dada despues de la integral.
-    this.eval = this.wolframalpha.split("Integrate[")[1];
+    let ev = this.wolframalpha.split("Integrate[")[1];
+    this.eval = "";
+    for (let l = 0; l < ev.length; l++) {
+      if(ev.charAt(l) == 'π'){
+         this.eval += 'pi'
+      }
+      else{
+        this.eval += ev.charAt(l);
+      }
+    }
     //Condicion para saber si va a realizar el proceso al api o no, siempre y cuando se haya agregado la integral
     if (this.integralWolframalpha) {
       //Se arma la integral completa para enviar a wolfram 'Integrate[((2x^2/5))--1,x]'
@@ -211,6 +223,7 @@ export class IntegralComponent implements OnInit {
         fire.valueitera = this.valueitera;
         fire.eval = this.eval;
         this.service.postHistory(fire);
+        this.functionDisabled(false,true);
       });
   }
 
@@ -218,7 +231,7 @@ export class IntegralComponent implements OnInit {
   formula(e: button) {
     if (e.name === "x^") {
       this.elevado = true;
-      this.functionDisabled(false,e.name);
+      this.functionDisabled(false);
     } else {
       this.equation =
         (this.equation == undefined ? "" : this.equation) +
@@ -238,7 +251,7 @@ export class IntegralComponent implements OnInit {
         this.elevado = false;
       }
       if(e.name === "log" || e.name === "sin" || e.name === "cos" || e.name === "tan" || e.name === "sec"){
-        this.functionDisabled(false,e.name);
+        this.functionDisabled(false);
       }
       else{
         this.functionDisabled(true);
@@ -259,6 +272,7 @@ export class IntegralComponent implements OnInit {
     this.valuemax = 0;
     this.valuemin = 0;
     this.valueitera = 0;
+    this.functionDisabled(true);
   }
 
   //Metodo o funcion para poder sacar las modales de cada metodo
@@ -302,17 +316,17 @@ export class IntegralComponent implements OnInit {
     return value;
   }
 
-  functionDisabled(disabled: boolean,val?: string) {
+  functionDisabled(disabled: boolean,val?: boolean) {
     //let disabled = true;
     if(!disabled){
       this.buttons.forEach(i => {
-        if(i.name === "="){
+        if(i.name === "="  || val){
           i.budisabled = 'disabled';
         }
       });
       
       this.buttonsSpecial.forEach(i => {
-        if(!(i.name === "("))
+        if(!(i.name === "(" || i.name === "π") || val)
         {
           i.budisabled  = 'disabled';
         }
