@@ -29,17 +29,15 @@ export class MethodsComponent implements OnInit {
   error(event){
     let e = event;
     this.errorevent.push(e);
+    let per = `${e.PER} %`;
     if(e.method ==="Rieman"){
-      let ri = `${e.PER} %`;
-      this.titlerieman = ri;
+      this.titlerieman = per;
     }
     if(e.method ==="Trapecio"){
-      let t = `${e.PER} %`;
-      this.titletrapecio = t;
+      this.titletrapecio = per;
     }
     if(e.method ==="Simpson"){
-      let s = `${e.PER} %`;
-      this.titlesimpson = s;
+      this.titlesimpson = per;
     }
     //console.log(e);
     console.log(this.errorevent);
