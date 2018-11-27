@@ -1,12 +1,12 @@
 <div>
     <mat-tab-group mat-align-tabs="start">
-        <mat-tab label="Rieman">
+        <mat-tab label="Rieman {{titlerieman}}">
             <app-rieman [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errorrieman)="error($event)"></app-rieman>
         </mat-tab>
-        <mat-tab label="Trapecio">
+        <mat-tab label="Trapecio {{titletrapecio}}">
             <app-trapecio [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errortrapecio)="error($event)"></app-trapecio>
         </mat-tab>
-        <mat-tab label="Simpson">
+        <mat-tab label="Simpson {{titlesimpson}}">
             <app-simpson [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errorsimpson)="error($event)"></app-simpson>
         </mat-tab>
         <mat-tab label="Romberg">
