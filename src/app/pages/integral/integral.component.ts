@@ -326,24 +326,24 @@ export class IntegralComponent implements OnInit {
     if(!disabled){
       this.buttons.forEach(i => {
         if(i.name === "="  || val){
-          i.budisabled = 'disabled';
+          i.budisabled = true;
         }
       });
       
       this.buttonsSpecial.forEach(i => {
         if(!(i.name === "(" || i.name === "π") || val)
         {
-          i.budisabled  = 'disabled';
+          i.budisabled  = true;
         }
       });
     }
     else{
       this.buttons.forEach(i => {
-          i.budisabled = 'enabled';
+          i.budisabled = false;
       });
       
       this.buttonsSpecial.forEach(i => {
-          i.budisabled  = 'enabled';
+          i.budisabled  = false;
       });
     }
 

@@ -1,10 +1,10 @@
 export class button {
-    budisabled: string;
+    budisabled: boolean;
     name: string;
     katex: string;
     wolframalpha: string;
     constructor(Name: string, Wolframalpha?: string, Katex?: string){
-        this.budisabled = 'enabled';
+        this.budisabled = false;
         this.name = Name;
         this.katex = Katex;
         this.wolframalpha = Wolframalpha;
