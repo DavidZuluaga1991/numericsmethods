@@ -45,13 +45,43 @@ export class RombergComponent implements OnInit {
         r[i][j] = 0;
       }
     }
-    let h: number = max - current;
 
-    r[1][1] = (h / 2) * (this.evaluar(this.valmin) + this.evaluar(max));
-    console.log("r[1][1]" + r[2][1]);
+    let i = 0;
+    let h: number = max - current;
+    let f0 = this.evaluar(this.valmin);
+    let fn = this.evaluar(this.valmax);
+    let x = this.valmax;
+    let k = 1;
+    let tol = 0.00000004;
+
+    r[1][1] = (h / 2) * (f0 + fn);
     let iterations = [];
 
-    for (let i = 2; i <= this.valitera; i++) {
+    while (1) {
+      i++;
+      h /= 2;
+      let s = 0;
+
+      for (var p = 1; p <= k; p++) {
+        x = this.valmin + h * (2 * p - 1);
+        let g = this.evaluar(x);
+        s = s + g;
+      }
+      r[i + 1][1] = (1 / 2) * (r[i][1]) + h * s;
+      k = 2 * k;
+      for (var m = 1; m < i; m++) {
+        r[i + 1][m + 1] = r[i + 1][m] + (r[i + 1][m] - r[i][m]) / (Math.pow(4, m - 1));
+      }
+      p = Math.abs((r[i + 1][m + 1]) - r[i][i]);
+      if (p <= tol) {
+        console.log(r);
+        break;
+      } else {
+        p > tol;
+      }
+    }
+
+    /*for (let i = 2; i <= this.valitera; i++) {
       r[2][1] = 0.5 + (r[1][1] + this.sum(this.valmin, i, h));
       console.log("r[2][1]" + r[2][1]);
       for (let j = 2; j <= i; j++) {
@@ -62,7 +92,7 @@ export class RombergComponent implements OnInit {
       for (let j = 1; j <= i; j++) {
         r[1][j] = r[2][j];
       }
-    }
+    }*/
 
 
     iterations.push({
