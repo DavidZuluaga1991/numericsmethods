@@ -9,7 +9,7 @@
         <mat-tab label="Simpson {{titlesimpson}}">
             <app-simpson [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errorsimpson)="error($event)"></app-simpson>
         </mat-tab>
-        <mat-tab label="Romberg">
+        <mat-tab label="Romberg {{titleromberg}}">
             <app-romberg [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errorromberg)="error($event)"></app-romberg>
         </mat-tab>
     </mat-tab-group>

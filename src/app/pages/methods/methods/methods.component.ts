@@ -17,6 +17,7 @@ export class MethodsComponent implements OnInit {
   titlerieman: string = "";
   titletrapecio: string = "";
   titlesimpson: string = "";
+  titleromberg: string = "";
   
   @ViewChild('tabGroup') tabGroup: MatTabGroup;
 
@@ -38,6 +39,9 @@ export class MethodsComponent implements OnInit {
     }
     if(e.method ==="Simpson"){
       this.titlesimpson = per;
+    }
+    if(e.method ==="Romberg"){
+      this.titleromberg = per;
     }
     //console.log(e);
     console.log(this.errorevent);

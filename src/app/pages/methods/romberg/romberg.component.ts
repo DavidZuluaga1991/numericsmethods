@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { parse, simplify } from 'mathjs';
 
 @Component({
@@ -13,7 +13,8 @@ export class RombergComponent implements OnInit {
   @Input() public valitera: number = 0;
   @Input() public valeval: string = "";
   @Input() public resultintegral: number = 0;
-  displayedColumns: string[] = ['id', 'xi', 'fxi', 'ai'];
+  @Output() public errorromberg = new EventEmitter();
+  displayedColumns: string[] = ['ai'];
 
   dataSource = [];
   constructor() {
@@ -26,7 +27,7 @@ export class RombergComponent implements OnInit {
   mathMethods() {
     let current: number = this.valmin;
     let max: number = this.valmax;
-    let itera: number = this.valitera;
+    let itera: number = (this.valitera % 2 == 0 ? this.valitera : this.valitera + 1);
 
     if (itera < 2) {
       console.warn("Cantidad de Iteraciones no Válida: " + itera);
@@ -39,9 +40,9 @@ export class RombergComponent implements OnInit {
     }
 
     let r = [];
-    for (let i = 0; i <= this.valitera; i++) {
+    for (let i = 0; i <= 3; i++) {
       r[i] = [];
-      for (var j: number = 0; j <= this.valitera; j++) {
+      for (var j: number = 0; j <= 3; j++) {
         r[i][j] = 0;
       }
     }
@@ -52,7 +53,7 @@ export class RombergComponent implements OnInit {
     let fn = this.evaluar(this.valmax);
     let x = this.valmax;
     let k = 1;
-    let tol = 0.00000004;
+    let tol = 0.000001;
 
     r[1][1] = (h / 2) * (f0 + fn);
     let iterations = [];
@@ -81,38 +82,18 @@ export class RombergComponent implements OnInit {
       }
     }
 
-    /*for (let i = 2; i <= this.valitera; i++) {
-      r[2][1] = 0.5 + (r[1][1] + this.sum(this.valmin, i, h));
-      console.log("r[2][1]" + r[2][1]);
-      for (let j = 2; j <= i; j++) {
-        r[2][j] = r[2][j - 1] + (r[2][j - 1] - r[1][j - 1]) / (Math.pow(4, j - 1) - 1);
-        console.log("r[2][j]" + r[2][j]);
-      }
-      h = h / 2;
-      for (let j = 1; j <= i; j++) {
-        r[1][j] = r[2][j];
-      }
-    }*/
+    let r1 = r[3][1];
+    let r2 = r[3][2];
 
+    let result = Math.abs(this.resultintegral - r1) > Math.abs(this.resultintegral - r2) ? r2 : r1;
+    let error = (Math.abs(Number(this.resultintegral) - result)) / Number(this.resultintegral);
+    this.errorromberg.emit({ method: 'Romberg', ER: error.toExponential(5), PER: (error * 100).toFixed(2) });
 
     iterations.push({
-      id: "",
-      xi: "",
-      fxi: "",
-      ai: "0"
+      ai: result.toFixed(10)
     });
     this.dataSource = iterations;
     //console.log("iterations", iterations);
-  }
-
-  sum(value: number, n: number, h: number) {
-    let node = parse(this.valeval);
-
-    let result: number = 0;
-    for (let i = 1; i <= Math.pow(2, n - 2); i++) {
-      result += node.eval({ x: (value + (i - 0.5) * h) });
-    }
-    return result * h;
   }
 
   /* Evaluar en la formula sin integrar */
