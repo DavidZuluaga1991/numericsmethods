@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-methods',
@@ -13,9 +13,16 @@ export class MethodsComponent implements OnInit {
   @Input() public resultintegral: number = 0;
   @Input() public eval: string= "";
 
+  errorevent: any[] = [];
+
   constructor() { }
 
   ngOnInit() {
   }
-
+  error(event){
+    let e = event;
+    this.errorevent.push(e);
+    //console.log(e);
+    console.log(this.errorevent);
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { parse, simplify } from 'mathjs';
 
 @Component({
@@ -13,6 +13,7 @@ export class TrapecioComponent implements OnInit {
   @Input() public valitera: number = 0;
   @Input() public resultintegral: number = 0;
   @Input() public valeval: string = "";
+  @Output() public errortrapecio = new EventEmitter();
   displayedColumns: string[] = ['id', 'xi', 'fxi', 'fxii', 'ai'];
 
   dataSource = [];
@@ -71,6 +72,7 @@ export class TrapecioComponent implements OnInit {
     error = (Math.abs(Number(this.resultintegral) - result)) / Number(this.resultintegral);
     console.log("ERROR REAL TRAPECIO: " + error.toExponential(5));
     console.log("%ERROR REAL TRAPECIO: " + (error * 100).toFixed(2) + "%");
+    this.errortrapecio.emit({ method: 'Trapecio', ER: error.toExponential(5), PER: (error * 100).toFixed(2)});
     //console.log("iterations", iterations);
   }
 

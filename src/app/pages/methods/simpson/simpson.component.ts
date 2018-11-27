@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { parse, simplify } from 'mathjs';
 
 @Component({
@@ -13,6 +13,7 @@ export class SimpsonComponent implements OnInit {
   @Input() public valitera: number = 0;
   @Input() public valeval: string = "";
   @Input() public resultintegral: number = 0;
+  @Output() public errorsimpson = new EventEmitter();
   displayedColumns: string[] = ['id', 'xi', 'fxi', 'fxii', 'fxiii', 'ai'];
 
   dataSource = [];
@@ -68,6 +69,7 @@ export class SimpsonComponent implements OnInit {
     error = (Math.abs(Number(this.resultintegral) - result)) / Number(this.resultintegral);
     console.log("ERROR REAL SIMPSON: " + error.toExponential(5));
     console.log("%ERROR REAL SIMPSON: " + (error * 100).toFixed(2) + "%");
+    this.errorsimpson.emit({ method: 'Simpson', ER: error.toExponential(5), PER: (error * 100).toFixed(2)});
     //console.log("iterations", iterations);
   }
 

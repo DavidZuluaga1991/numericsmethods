@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { parse, simplify } from 'mathjs';
 
 @Component({
@@ -15,6 +15,8 @@ export class RiemanComponent implements OnInit {
   @Input() public valitera: number = 0;
   @Input() public valeval: string = "";
   @Input() public resultintegral: number = 0;
+  //@Output() public errorperce = new EventEmitter();
+  @Output() public errorrieman = new EventEmitter();
   displayedColumns: string[] = ['id', 'xi', 'fxi', 'ai'];
 
   dataSource = [];
@@ -73,6 +75,7 @@ export class RiemanComponent implements OnInit {
     console.log("%ERROR REAL RIEMANN: " + (error * 100).toFixed(2) + "%");
 
     this.dataSource = iterations;
+    this.errorrieman.emit({ method: 'Rieman', ER: error.toExponential(5), PER: (error * 100).toFixed(2)});
     //console.log("iterations", iterations);
   }
 

@@ -1,16 +1,16 @@
 <div>
     <mat-tab-group mat-align-tabs="start">
         <mat-tab label="Rieman">
-            <app-rieman [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral"></app-rieman>
+            <app-rieman [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errorrieman)="error($event)"></app-rieman>
         </mat-tab>
         <mat-tab label="Trapecio">
-            <app-trapecio [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral"></app-trapecio>
+            <app-trapecio [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errortrapecio)="error($event)"></app-trapecio>
         </mat-tab>
         <mat-tab label="Simpson">
-            <app-simpson [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral"></app-simpson>
+            <app-simpson [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errorsimpson)="error($event)"></app-simpson>
         </mat-tab>
         <mat-tab label="Romberg">
-            <app-romberg [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral"></app-romberg>
+            <app-romberg [valmin]="valuemin" [valmax]="valuemax" [valitera]="valueitera" [valeval]="eval" [resultintegral]="resultintegral" (errorromberg)="error($event)"></app-romberg>
         </mat-tab>
     </mat-tab-group>
 </div>
