@@ -39,7 +39,8 @@ export class IntegralComponent implements OnInit {
   //Variables de ayuda
   elevado: boolean = false;
   eval: string;
-
+  //Variable para saber si usaron la x o no
+  usex: boolean = true;
   //Valores que lleva el Katex
   options: KatexOptions = {
     displayMode: true,
@@ -209,7 +210,7 @@ export class IntegralComponent implements OnInit {
         });
 
         this.load = false;
-
+        this.usex = true;
         //Se inicializa un metodo para poder realizar el post a firebase
         let fire = new firebases();
         fire.equation = this.equation;
@@ -229,6 +230,9 @@ export class IntegralComponent implements OnInit {
 
   /** Funcion el cual se ejecuta al hacer el evento en el boton**/
   formula(e: button) {
+    if(e.name === "x"){
+      this.usex = false;
+    }
     if (e.name === "x^") {
       this.elevado = true;
       this.functionDisabled(false);
@@ -272,6 +276,7 @@ export class IntegralComponent implements OnInit {
     this.valuemax = 0;
     this.valuemin = 0;
     this.valueitera = 0;
+    this.usex = true;
     this.functionDisabled(true);
   }
 
